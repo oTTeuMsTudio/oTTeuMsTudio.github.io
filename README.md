@@ -1,6 +1,6 @@
 # oTTeuM sTudio
 
-Personal GitHub Pages site for **oTTeuM sTudio** — Teo Goli, Unreal Engine game development beginner in Kočevje, Slovenia.
+Personal GitHub Pages site for **oTTeuM sTudio** — Unreal Engine game development beginner.
 
 **Live:** https://otteumstudio.github.io
 

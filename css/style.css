@@ -502,15 +502,10 @@ section {
 }
 
 /* Contact */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
-}
-
 .contact-links {
   display: grid;
   gap: 0.7rem;
+  max-width: 42rem;
 }
 
 .contact-links a {
@@ -526,20 +521,6 @@ section {
 .contact-links a:hover {
   border-color: rgba(198, 255, 61, 0.45);
   color: var(--lime);
-}
-
-.address {
-  padding: 1.4rem;
-}
-
-.address h3 {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-display);
-}
-
-.address p {
-  margin: 0.2rem 0;
-  color: var(--muted);
 }
 
 /* Journal */
@@ -623,8 +604,7 @@ body.nav-open .nav-links {
 @media (max-width: 900px) {
   .path-grid,
   .studies,
-  .about-band,
-  .contact-grid {
+  .about-band {
     grid-template-columns: 1fr;
   }
 
