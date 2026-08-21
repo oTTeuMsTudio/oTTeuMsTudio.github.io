@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Journal — oTTeuM sTudio</title>
+    <meta
+      name="description"
+      content="Learning journal for oTTeuM sTudio: Teo Goli studying Unreal Engine as a beginner game developer."
+    />
+    <link rel="icon" href="images/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="index.html">
+          <img src="images/logo.jpg" width="42" height="42" alt="oTTeuM sTudio TT mark" />
+          <span class="wordmark">
+            o<span class="tt">TT</span>euM sTudio
+            <small>Unreal Engine beginner</small>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="journal.html" aria-current="page">Journal</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap page-hero">
+        <p class="kicker">Learning in public</p>
+        <h1>Journal</h1>
+        <p class="lede">Notes from the Unreal Engine beginner path. Short, honest, replaceable as I ship real work.</p>
+      </div>
+
+      <section>
+        <div class="wrap journal-list">
+          <article class="panel entry">
+            <time datetime="2026-08">August 2026</time>
+            <h2>Why Unreal Engine, and why beginner</h2>
+            <p>
+              I spent years on 3D modeling and a stretch in other engines and tools. Unreal Engine
+              is where I want to learn game development properly: editor, Blueprints, then C++.
+              Calling myself a beginner is the point. The 3D artist site is retired. This studio
+              site is the new start.
+            </p>
+          </article>
+          <article class="panel entry">
+            <time datetime="2026-08">August 2026</time>
+            <h2>Graybox before beauty</h2>
+            <p>
+              First maps are cubes in a pine clearing. Scale, door height, and a path the player
+              can read. Pretty materials come after the space works. That is a 3D artist habit I
+              am trying to keep — and a game-dev habit I am trying to learn.
+            </p>
+          </article>
+          <article class="panel entry">
+            <time datetime="2026-08">August 2026</time>
+            <h2>One light, then the forest</h2>
+            <p>
+              Lighting studies first: a lantern, fog, wet bark. If a scene feels like a place
+              with a single source, I trust it more than a dozen fill lights. Next: hook that
+              mood into a walkable blockout inside Unreal.
+            </p>
+          </article>
+          <article class="panel entry">
+            <time datetime="2026-08">August 2026</time>
+            <h2>From Blender files to an Unreal folder</h2>
+            <p>
+              I already know how to make game-ready meshes. The new skill is import settings,
+              collision, Nanite choices, and materials that survive engine lighting. That is the
+              homework for the next weeks.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>oTTeuM sTudio · Unreal Engine game dev beginner</span>
+        <span>© <span data-year></span> Teo Goli</span>
+      </div>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>
