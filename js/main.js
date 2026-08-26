@@ -18,3 +18,12 @@ if (toggle && links) {
 document.querySelectorAll("[data-year]").forEach((el) => {
   el.textContent = String(new Date().getFullYear());
 });
+
+const videos = document.querySelectorAll("video");
+videos.forEach((video) => {
+  video.addEventListener("play", () => {
+    videos.forEach((other) => {
+      if (other !== video) other.pause();
+    });
+  });
+});
