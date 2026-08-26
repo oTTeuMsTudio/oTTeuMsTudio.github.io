@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MeshForge — 3D modeling — oTTeuM sTudio</title>
+    <meta
+      name="description"
+      content="MeshForge is oTTeuM sTudio's in-browser 3D polygonal modeling editor, written in Rust and compiled to WebAssembly."
+    />
+    <link rel="icon" href="../images/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    
+<script type="module">
+import init, * as bindings from './meshforge-3877c85d643c1b69.js';
+const wasm = await init({ module_or_path: './meshforge-3877c85d643c1b69_bg.wasm' });
+window.wasmBindings = bindings;
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+</script>
+  <link rel="modulepreload" href="./meshforge-3877c85d643c1b69.js" />
+  <link rel="preload" href="./meshforge-3877c85d643c1b69_bg.wasm" as="fetch" type="application/wasm" />
+  </head>
+  <body class="modeling">
+    <a class="skip" href="#editor">Skip to editor</a>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html">
+          <img src="../images/logo.jpg" width="42" height="42" alt="oTTeuM sTudio TT mark" />
+          <span class="wordmark">
+            o<span class="tt">TT</span>euM sTudio
+            <small>Unreal Engine beginner</small>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../firstgame/index.html">First game</a>
+          <a href="index.html" aria-current="page">3D modeling</a>
+          <a href="../about.html">About</a>
+          <a href="../journal.html">Journal</a>
+          <a href="../index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="editor" class="editor-shell">
+      <p class="editor-mobile">
+        MeshForge is a desktop modeler. Open this page on a computer with WebGPU or WebGL2
+        (Chrome, Edge, or recent Firefox).
+      </p>
+      <div class="editor-stage">
+        <div id="editor-loading" class="editor-loading">
+          <p class="kicker">MeshForge</p>
+          <h1>Loading the editor</h1>
+          <p>Rust + wgpu, compiled to WebAssembly. First load can take a moment.</p>
+        </div>
+        <canvas id="meshforge-canvas" tabindex="0" oncontextmenu="return false;"></canvas>
+      </div>
+    </main>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

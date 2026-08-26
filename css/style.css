@@ -709,3 +709,90 @@ body.nav-open .nav-links {
     transition: none;
   }
 }
+
+/* 3D modeling / MeshForge */
+body.modeling {
+  overflow: hidden;
+  height: 100%;
+  background: #08090d;
+}
+
+html:has(body.modeling) {
+  height: 100%;
+  overflow: hidden;
+}
+
+body.modeling .grain {
+  display: none;
+}
+
+.editor-shell {
+  height: calc(100vh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #0c0e14;
+  border-top: 1px solid var(--line);
+}
+
+.editor-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+}
+
+.editor-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: #0c0e14;
+  pointer-events: none;
+}
+
+.editor-loading h1,
+.editor-fail h2 {
+  margin: 0.45rem 0 0.5rem;
+  font-family: var(--font-display);
+  letter-spacing: -0.05em;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+.editor-loading p,
+.editor-fail p {
+  margin: 0;
+  color: var(--mist);
+  max-width: 28rem;
+}
+
+.editor-fail {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.editor-mobile {
+  display: none;
+  margin: 0;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.88rem;
+  color: var(--mist);
+  background: rgba(198, 255, 61, 0.08);
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 700px) {
+  .editor-mobile {
+    display: block;
+  }
+}

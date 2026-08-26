@@ -35,6 +35,7 @@
         <nav class="nav-links" aria-label="Primary">
           <a href="index.html" aria-current="page">Home</a>
           <a href="firstgame/index.html">First game</a>
+          <a href="modeling/index.html">3D modeling</a>
           <a href="about.html">About</a>
           <a href="journal.html">Journal</a>
           <a href="#contact">Contact</a>
@@ -60,7 +61,7 @@
           </div>
           <div class="actions">
             <a class="btn btn-lime" href="firstgame/index.html">Watch first game</a>
-            <a class="btn btn-ghost" href="#studies">See first worlds</a>
+            <a class="btn btn-ghost" href="modeling/index.html">Open 3D modeler</a>
           </div>
         </div>
       </section>
@@ -147,6 +148,41 @@
                 <a class="btn btn-ghost" href="journal.html">How it landed</a>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="modeling">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">3D modeling</p>
+            <h2>MeshForge in the browser</h2>
+            <p>
+              A polygonal modeler I wrote in Rust — object and edit mode, box tools,
+              gizmos, undo, OBJ import and export. Now compiled to WebAssembly so it
+              lives on this site, not only on the desktop.
+            </p>
+          </div>
+          <div class="path-list">
+            <article class="path-item">
+              <span class="status">Live</span>
+              <strong>Object and Edit mode</strong>
+              <span>Tab to switch. 1 / 2 / 3 for vertex, edge, face. G / R / S to transform.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Live</span>
+              <strong>Box modeling tools</strong>
+              <span>Extrude, inset, subdivide, fill, join, and a transform gizmo in the viewport.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Live</span>
+              <strong>Rust + wgpu in the browser</strong>
+              <span>Same editor as the desktop build, compiled to WebAssembly. Needs WebGPU or WebGL2.</span>
+            </article>
+          </div>
+          <div class="actions" style="margin-top: 1.6rem">
+            <a class="btn btn-lime" href="modeling/index.html">Open MeshForge</a>
+            <a class="btn btn-ghost" href="journal.html">Why it is on the site</a>
           </div>
         </div>
       </section>
