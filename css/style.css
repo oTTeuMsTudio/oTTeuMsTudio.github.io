@@ -651,6 +651,17 @@ section {
   color: var(--lime);
 }
 
+.play-steps {
+  margin: 0.85rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--mist);
+  font-size: 0.92rem;
+}
+
+.play-steps li + li {
+  margin-top: 0.28rem;
+}
+
 /* Footer */
 .footer {
   border-top: 1px solid var(--line);

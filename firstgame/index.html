@@ -59,7 +59,18 @@
           <span>Android · Windows</span>
         </div>
         <div class="actions" style="margin-top: 0.4rem">
-          <a class="btn btn-lime" href="#packaged">Download the game</a>
+          <a
+            class="btn btn-lime"
+            href="packaged/android/FGIU-arm64.apk"
+            download="FGIU-arm64.apk"
+            type="application/vnd.android.package-archive"
+          >Download Android</a>
+          <a
+            class="btn btn-ghost"
+            href="packaged/windows/FGIU-Windows.zip"
+            download="FGIU-Windows.zip"
+            type="application/zip"
+          >Download Windows</a>
         </div>
       </div>
 
@@ -144,7 +155,7 @@
             </div>
           </dl>
           <div class="actions" style="margin-top: 1.8rem">
-            <a class="btn btn-lime" href="#packaged">Download Android or Windows</a>
+            <a class="btn btn-lime" href="#packaged">How to install</a>
             <a class="btn btn-ghost" href="../journal.html">Read the journal</a>
           </div>
         </div>
@@ -153,21 +164,23 @@
       <section id="packaged">
         <div class="wrap">
           <div class="section-head">
-            <p class="kicker">Packaged</p>
-            <h2>Play it on Android or Windows</h2>
+            <p class="kicker">Play it</p>
+            <h2>Download and run the game</h2>
             <p>
-              Same First Game in Unreal loop as the recording — packaged out of the
-              editor so you can run it on a phone or a PC.
+              Same First Game in Unreal loop as the recording. Grab a build, install
+              it, play. Not on the Play Store or Steam — files come straight off this page.
             </p>
           </div>
           <div class="download-grid">
             <article class="panel download-card">
               <span class="status">Android</span>
               <strong>FGIU-arm64.apk</strong>
-              <p>
-                64-bit Android package. Sideload it — this is not on the Play Store.
-                Allow installs from the browser, then open the APK.
-              </p>
+              <p>64-bit Android package. Sideload it from the file you download here.</p>
+              <ol class="play-steps">
+                <li>Download the APK (184 MB).</li>
+                <li>Open the file. If Android asks, allow installs from this browser.</li>
+                <li>Launch First Game in Unreal.</li>
+              </ol>
               <div class="clip-meta">
                 <span>184 MB</span>
                 <span>arm64-v8a</span>
@@ -176,28 +189,32 @@
               <div class="actions" style="margin-top: 1.1rem">
                 <a
                   class="btn btn-lime"
-                  href="https://github.com/oTTeuMsTudio/oTTeuMsTudio.github.io/releases/download/fgiu/FGIU-arm64.apk"
+                  href="packaged/android/FGIU-arm64.apk"
                   download="FGIU-arm64.apk"
+                  type="application/vnd.android.package-archive"
                 >Download APK</a>
               </div>
             </article>
             <article class="panel download-card">
               <span class="status">Windows</span>
               <strong>FGIU-Windows.zip</strong>
-              <p>
-                Packaged Win64 build. Unzip the folder and run <code>FGIU.exe</code>.
-                If Windows asks for Visual C++ runtime, the redist is in the zip.
-              </p>
+              <p>Packaged Win64 build. Unzip the folder, then run the game.</p>
+              <ol class="play-steps">
+                <li>Download the zip (416 MB).</li>
+                <li>Unzip and open the <code>FGIU-Windows</code> folder.</li>
+                <li>Double-click <code>FGIU.exe</code>.</li>
+              </ol>
               <div class="clip-meta">
                 <span>416 MB</span>
                 <span>Win64</span>
-                <span>Unzip, then play</span>
+                <span>Unreal Engine 5</span>
               </div>
               <div class="actions" style="margin-top: 1.1rem">
                 <a
                   class="btn btn-lime"
-                  href="https://github.com/oTTeuMsTudio/oTTeuMsTudio.github.io/releases/download/fgiu/FGIU-Windows.zip"
+                  href="packaged/windows/FGIU-Windows.zip"
                   download="FGIU-Windows.zip"
+                  type="application/zip"
                 >Download zip</a>
               </div>
             </article>

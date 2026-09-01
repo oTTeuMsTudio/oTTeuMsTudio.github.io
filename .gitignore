@@ -2,7 +2,8 @@
 Thumbs.db
 *.log
 
-# Packaged Unreal builds are over GitHub's 100 MB file limit.
-# Hosted as release assets; kept locally in firstgame/packaged/.
+# Packaged Unreal builds are over GitHub's 100 MB git file limit.
+# Stored as the `fgiu` release; the Pages workflow copies them into
+# firstgame/packaged/ on deploy so the site can serve the downloads.
 firstgame/packaged/android/*.apk
 firstgame/packaged/windows/*.zip
