@@ -619,6 +619,38 @@ section {
   line-height: 0.95;
 }
 
+.download-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.download-card {
+  padding: 1.3rem 1.35rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.download-card strong {
+  display: block;
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  font-size: 1.2rem;
+}
+
+.download-card p {
+  margin: 0.45rem 0 0;
+  color: var(--mist);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.download-card code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--lime);
+}
+
 /* Footer */
 .footer {
   border-top: 1px solid var(--line);
@@ -660,7 +692,8 @@ body.nav-open .nav-links {
   .path-grid,
   .studies,
   .about-band,
-  .feature-play {
+  .feature-play,
+  .download-grid {
     grid-template-columns: 1fr;
   }
 
