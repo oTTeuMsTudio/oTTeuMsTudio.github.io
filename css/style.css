@@ -556,9 +556,10 @@ section {
   padding: 3.5rem 0 1rem;
 }
 
-/* First game / video */
+/* Games / video */
 .clip-grid {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1.2rem;
 }
 
@@ -645,7 +646,8 @@ section {
   flex: 1;
 }
 
-.download-card code {
+.download-card code,
+p code {
   font-family: var(--font-mono);
   font-size: 0.86em;
   color: var(--lime);
@@ -704,7 +706,8 @@ body.nav-open .nav-links {
   .studies,
   .about-band,
   .feature-play,
-  .download-grid {
+  .download-grid,
+  .clip-grid {
     grid-template-columns: 1fr;
   }
 

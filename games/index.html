@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Games — oTTeuM sTudio</title>
+    <meta
+      name="description"
+      content="Games from oTTeuM sTudio. Starting a top-down strategy/shooter in Unreal Engine 5.8 with Blueprints, plus the earlier First Game in Unreal builds."
+    />
+    <link rel="icon" href="../images/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html">
+          <img src="../images/logo.jpg" width="42" height="42" alt="oTTeuM sTudio TT mark" />
+          <span class="wordmark">
+            o<span class="tt">TT</span>euM sTudio
+            <small>Unreal Engine beginner</small>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="index.html" aria-current="page">Games</a>
+          <a href="../modeling/index.html">3D modeling</a>
+          <a href="../about.html">About</a>
+          <a href="../journal.html">Journal</a>
+          <a href="../index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap page-hero">
+        <p class="kicker">Games · September 2026</p>
+        <h1>Games</h1>
+        <p class="lede">
+          What I am building in Unreal Engine 5.8. The new work is a top-down
+          strategy/shooter in Blueprints. The first playable loop is still here
+          to download.
+        </p>
+        <div class="hero-meta">
+          <span>Unreal Engine 5.8</span>
+          <span>Blueprints</span>
+          <span>Top-down</span>
+          <span>Strategy · Shooter</span>
+        </div>
+      </div>
+
+      <section id="topdown">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Starting now</p>
+            <h2>Top-down strategy / shooter</h2>
+            <p>
+              A short editor recording of how this game starts: Unreal Engine 5.8,
+              the Top Down template, click-to-move, and the Blueprint input that
+              sends the mannequin across the graybox.
+            </p>
+          </div>
+          <div class="feature-play">
+            <figure class="panel video-stage">
+              <video
+                controls
+                playsinline
+                preload="metadata"
+                poster="topdown-start.jpg"
+                title="Starting a top-down strategy/shooter in Unreal Engine 5.8 with Blueprints"
+              >
+                <source src="topdown-start.mp4" type="video/mp4" />
+                Your browser does not play MP4 video.
+              </video>
+              <figcaption class="video-caption">
+                <h3>How this game starts</h3>
+                <p>
+                  PIE in the Unreal Editor: top-down mannequin on the prototype
+                  floor, click-to-move, then the Enhanced Input mappings that
+                  drive it.
+                </p>
+                <div class="clip-meta">
+                  <span>0:45</span>
+                  <span>2 Sep 2026</span>
+                  <span>Unreal Engine 5.8 · Blueprints</span>
+                </div>
+              </figcaption>
+            </figure>
+            <div>
+              <p>
+                This is the first session of a top-down strategy/shooter. Not a
+                trailer — an explanation of the start. Engine 5.8, Blueprints
+                first, graybox on purpose.
+              </p>
+              <p>
+                The map is the Top Down template: blue prototype volumes, ramps,
+                a click destination on the floor. Play In Editor runs the
+                mannequin. The last beat opens
+                <code>IA_SetDestination_Click</code> (left mouse) and
+                <code>IA_SetDestination_Touch</code> (touch) — the input that
+                will grow into orders, then shooting.
+              </p>
+              <p>
+                Strategy and shooter share this camera and this click. Units and
+                fire come after the body actually walks where I point.
+              </p>
+              <dl class="facts" style="margin-top: 1.4rem">
+                <div class="fact">
+                  <dt>Engine</dt>
+                  <dd>Unreal Engine 5.8</dd>
+                </div>
+                <div class="fact">
+                  <dt>Logic</dt>
+                  <dd>Blueprints</dd>
+                </div>
+                <div class="fact">
+                  <dt>Camera</dt>
+                  <dd>Top-down</dd>
+                </div>
+                <div class="fact">
+                  <dt>Project</dt>
+                  <dd>oTTeStrategy</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">What the recording shows</p>
+            <h2>The first loop of this game</h2>
+            <p>
+              Same rule as the last playable: scale and path before pretty.
+              New rule: the camera looks down, and a click is an order.
+            </p>
+          </div>
+          <div class="path-list">
+            <article class="path-item">
+              <span class="status">Now</span>
+              <strong>Top-down camera</strong>
+              <span>Editor viewport and PIE both look down on the graybox — the angle this game will keep.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Now</span>
+              <strong>Click-to-move</strong>
+              <span>Left mouse sets a destination. The mannequin runs there. That is the first order.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Now</span>
+              <strong>Blueprint input</strong>
+              <span>Enhanced Input actions in Content / TopDown / Input — mouse and touch, no C++ yet.</span>
+            </article>
+            <article class="path-item">
+              <span class="status later">Next</span>
+              <strong>Strategy, then fire</strong>
+              <span>Select units, give orders, then a shooter layer on the same top-down map.</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="first-game">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Earlier playable</p>
+            <h2>First Game in Unreal</h2>
+            <p>
+              The third-person timed course from August. Still the loop you can
+              download and run — Android and Windows.
+            </p>
+          </div>
+          <div class="feature-play">
+            <figure class="panel video-stage">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="../firstgame/gameplay.jpg"
+                title="First Game in Unreal gameplay"
+              >
+                <source src="../firstgame/gameplay.mp4" type="video/mp4" />
+              </video>
+              <figcaption class="video-caption">
+                <h3>Gameplay</h3>
+                <p>1:07 · 31 Aug 2026 · start line, timer, mannequin</p>
+              </figcaption>
+            </figure>
+            <div>
+              <p>
+                Third-person mannequin off a painted start line, lime-and-orange
+                platforms, a clock on screen. Recorded in the editor. Art later.
+                Play first.
+              </p>
+              <div class="actions" style="margin-top: 1.4rem">
+                <a class="btn btn-lime" href="#packaged">Download the game</a>
+                <a class="btn btn-ghost" href="../journal.html">Read the journal</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="packaged">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Play it</p>
+            <h2>Download First Game in Unreal</h2>
+            <p>
+              Same loop as the August recording. Grab a build, install it, play.
+              Not on the Play Store or Steam — files come straight off this page.
+            </p>
+          </div>
+          <div class="download-grid">
+            <article class="panel download-card">
+              <span class="status">Android</span>
+              <strong>FGIU-arm64.apk</strong>
+              <p>64-bit Android package. Sideload it from the file you download here.</p>
+              <ol class="play-steps">
+                <li>Download the APK (184 MB).</li>
+                <li>Open the file. If Android asks, allow installs from this browser.</li>
+                <li>Launch First Game in Unreal.</li>
+              </ol>
+              <div class="clip-meta">
+                <span>184 MB</span>
+                <span>arm64-v8a</span>
+                <span>Unreal Engine 5</span>
+              </div>
+              <div class="actions" style="margin-top: 1.1rem">
+                <a
+                  class="btn btn-lime"
+                  href="../firstgame/packaged/android/FGIU-arm64.apk"
+                  download="FGIU-arm64.apk"
+                  type="application/vnd.android.package-archive"
+                >Download APK</a>
+              </div>
+            </article>
+            <article class="panel download-card">
+              <span class="status">Windows</span>
+              <strong>FGIU-Windows.zip</strong>
+              <p>Packaged Win64 build. Unzip the folder, then run the game.</p>
+              <ol class="play-steps">
+                <li>Download the zip (416 MB).</li>
+                <li>Unzip and open the <code>FGIU-Windows</code> folder.</li>
+                <li>Double-click <code>FGIU.exe</code>.</li>
+              </ol>
+              <div class="clip-meta">
+                <span>416 MB</span>
+                <span>Win64</span>
+                <span>Unreal Engine 5</span>
+              </div>
+              <div class="actions" style="margin-top: 1.1rem">
+                <a
+                  class="btn btn-lime"
+                  href="../firstgame/packaged/windows/FGIU-Windows.zip"
+                  download="FGIU-Windows.zip"
+                  type="application/zip"
+                >Download zip</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Earlier loop</p>
+            <h2>FHOU — 25 August</h2>
+            <p>
+              The first time anything ran outside a still. Coins, a HUD, a game-over
+              widget. Kept here because that is how the first game started.
+            </p>
+          </div>
+          <div class="clip-grid">
+            <figure class="panel video-stage">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="../firstgame/play.jpg"
+                title="FHOU standalone play session"
+              >
+                <source src="../firstgame/play.mp4" type="video/mp4" />
+                Your browser does not play MP4 video.
+              </video>
+              <figcaption class="video-caption">
+                <h2>Standalone play</h2>
+                <p>
+                  PIE standalone window: mannequin on the lime playground, coin HUD at
+                  the bottom. This is the first time the loop ran outside the editor.
+                </p>
+                <div class="clip-meta">
+                  <span>1:04</span>
+                  <span>25 Aug 2026</span>
+                  <span>FHOU Preview · Standalone</span>
+                </div>
+              </figcaption>
+            </figure>
+
+            <figure class="panel video-stage">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="../firstgame/editor.jpg"
+                title="FHOU Unreal Editor session"
+              >
+                <source src="../firstgame/editor.mp4" type="video/mp4" />
+                Your browser does not play MP4 video.
+              </video>
+              <figcaption class="video-caption">
+                <h2>Editor session</h2>
+                <p>
+                  Lvl_ThirdPerson in the Unreal Editor. Floor, ramps, and green volumes
+                  in a Playground folder — plus BP_Collectible, WBP_HUD, and WP_Gameover
+                  in the content browser.
+                </p>
+                <div class="clip-meta">
+                  <span>0:49</span>
+                  <span>25 Aug 2026</span>
+                  <span>Unreal Editor</span>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>oTTeuM sTudio · Unreal Engine game dev beginner</span>
+        <span>© <span data-year></span> oTTeuM sTudio</span>
+      </div>
+    </footer>
+    <script src="../js/main.js"></script>
+  </body>
+</html>
