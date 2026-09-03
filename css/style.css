@@ -757,20 +757,46 @@ body.nav-open .nav-links {
   }
 }
 
-/* 3D modeling / MeshForge */
-body.modeling {
+/* Rust / oTTeCAD */
+body.rust {
   overflow: hidden;
   height: 100%;
   background: #08090d;
 }
 
-html:has(body.modeling) {
+html:has(body.rust) {
   height: 100%;
   overflow: hidden;
 }
 
-body.modeling .grain {
+body.rust .grain {
   display: none;
+}
+
+.editor-intro {
+  flex-shrink: 0;
+  padding: 0.85rem 1.4rem 0.95rem;
+  border-bottom: 1px solid var(--line);
+  background: #08090d;
+}
+
+.editor-intro .kicker {
+  margin: 0 0 0.35rem;
+}
+
+.editor-intro h1 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.editor-intro p {
+  margin: 0;
+  max-width: 48rem;
+  color: var(--mist);
+  font-size: 0.92rem;
 }
 
 .editor-shell {
@@ -841,5 +867,9 @@ body.modeling .grain {
 @media (max-width: 700px) {
   .editor-mobile {
     display: block;
+  }
+
+  .editor-intro {
+    padding: 0.7rem 1.2rem 0.8rem;
   }
 }

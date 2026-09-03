@@ -2850,7 +2850,7 @@ function __wbg_get_imports() {
     };
     return {
         __proto__: null,
-        "./meshforge_bg.js": import0,
+        "./ottecad_bg.js": import0,
     };
 }
 
@@ -3379,7 +3379,7 @@ async function __wbg_init(module_or_path) {
     }
 
     if (module_or_path === undefined) {
-        module_or_path = new URL('meshforge_bg.wasm', import.meta.url);
+        module_or_path = new URL('ottecad_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

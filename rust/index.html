@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rust — oTTeCAD — oTTeuM sTudio</title>
+    <meta
+      name="description"
+      content="I am writing my own 3D modeler in Rust system-level code. oTTeCAD is that editor — mesh, GPU, and tools I own — compiled to WebAssembly."
+    />
+    <link rel="icon" href="../images/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    
+<script type="module">
+import init, * as bindings from './ottecad-14bcb915af6db510.js';
+const wasm = await init({ module_or_path: './ottecad-14bcb915af6db510_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+  <link rel="modulepreload" href="./ottecad-14bcb915af6db510.js" crossorigin="anonymous" integrity="sha384-A+ExG9qGI7Q7UK7l8fj/rJ5Ulf9UOUMpBzsYPn/mL/ATzUxVPLpKPSgiiRZ1OjPF"><link rel="preload" href="./ottecad-14bcb915af6db510_bg.wasm" crossorigin="anonymous" integrity="sha384-WUcZnvtrU6oiDebExi4E/r9YppfTmgjomPk88j0InWgIrkCHdRP+5ECMwBZKbwTB" as="fetch" type="application/wasm"></head>
+  <body class="rust">
+    <a class="skip" href="#editor">Skip to editor</a>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html">
+          <img src="../images/logo.jpg" width="42" height="42" alt="oTTeuM sTudio TT mark" />
+          <span class="wordmark">
+            o<span class="tt">TT</span>euM sTudio
+            <small>Unreal Engine beginner</small>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="../index.html">Home</a>
+          <a href="../games/index.html">Games</a>
+          <a href="index.html" aria-current="page">Rust</a>
+          <a href="../about.html">About</a>
+          <a href="../journal.html">Journal</a>
+          <a href="../index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="editor" class="editor-shell">
+      <div class="editor-intro">
+        <p class="kicker">Rust</p>
+        <h1>Writing my own 3D modeler</h1>
+        <p>
+          I am building oTTeCAD in Rust system-level code — mesh topology, GPU
+          viewport, tools, and undo I own. Not a plugin, and not a script on top
+          of someone else's editor. The same workbench compiles to WebAssembly
+          and runs here.
+        </p>
+      </div>
+      <p class="editor-mobile">
+        oTTeCAD is a desktop modeler. Open this page on a computer with WebGPU or WebGL2
+        (Chrome, Edge, or recent Firefox).
+      </p>
+      <div class="editor-stage">
+        <div id="editor-loading" class="editor-loading">
+          <p class="kicker">oTTeCAD</p>
+          <h1>Loading the editor</h1>
+          <p>Rust + wgpu, compiled to WebAssembly. First load can take a moment.</p>
+        </div>
+        <canvas id="ottecad-canvas" tabindex="0" oncontextmenu="return false;"></canvas>
+      </div>
+    </main>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

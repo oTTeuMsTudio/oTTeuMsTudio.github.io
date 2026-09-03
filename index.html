@@ -35,7 +35,7 @@
         <nav class="nav-links" aria-label="Primary">
           <a href="index.html" aria-current="page">Home</a>
           <a href="games/index.html">Games</a>
-          <a href="modeling/index.html">3D modeling</a>
+          <a href="rust/index.html">Rust</a>
           <a href="about.html">About</a>
           <a href="journal.html">Journal</a>
           <a href="#contact">Contact</a>
@@ -61,7 +61,7 @@
           </div>
           <div class="actions">
             <a class="btn btn-lime" href="games/index.html">Open Games</a>
-            <a class="btn btn-ghost" href="modeling/index.html">Open 3D modeler</a>
+            <a class="btn btn-ghost" href="rust/index.html">Open Rust</a>
           </div>
         </div>
       </section>
@@ -153,18 +153,24 @@
         </div>
       </section>
 
-      <section id="modeling">
+      <section id="rust">
         <div class="wrap">
           <div class="section-head">
-            <p class="kicker">3D modeling</p>
-            <h2>MeshForge in the browser</h2>
+            <p class="kicker">Rust</p>
+            <h2>Writing my own 3D modeler</h2>
             <p>
-              A polygonal modeler I wrote in Rust — object and edit mode, box tools,
-              gizmos, undo, OBJ import and export. Now compiled to WebAssembly so it
-              lives on this site, not only on the desktop.
+              I am writing a polygonal 3D modeler in Rust system-level code —
+              mesh topology, GPU viewport, tools, and undo I own. Not a plugin,
+              and not a script on top of someone else's editor. oTTeCAD is that
+              workbench, compiled to WebAssembly so it runs on this site.
             </p>
           </div>
           <div class="path-list">
+            <article class="path-item">
+              <span class="status">Now</span>
+              <strong>System-level Rust</strong>
+              <span>Native mesh data, wgpu GPU path, and tools written in Rust — not a high-level wrapper.</span>
+            </article>
             <article class="path-item">
               <span class="status">Live</span>
               <strong>Object and Edit mode</strong>
@@ -172,17 +178,12 @@
             </article>
             <article class="path-item">
               <span class="status">Live</span>
-              <strong>Box modeling tools</strong>
-              <span>Extrude, inset, subdivide, fill, join, and a transform gizmo in the viewport.</span>
-            </article>
-            <article class="path-item">
-              <span class="status">Live</span>
-              <strong>Rust + wgpu in the browser</strong>
-              <span>Same editor as the desktop build, compiled to WebAssembly. Needs WebGPU or WebGL2.</span>
+              <strong>Same editor in the browser</strong>
+              <span>Desktop build compiled to WebAssembly. Needs WebGPU or WebGL2.</span>
             </article>
           </div>
           <div class="actions" style="margin-top: 1.6rem">
-            <a class="btn btn-lime" href="modeling/index.html">Open MeshForge</a>
+            <a class="btn btn-lime" href="rust/index.html">Open oTTeCAD</a>
             <a class="btn btn-ghost" href="journal.html">Why it is on the site</a>
           </div>
         </div>

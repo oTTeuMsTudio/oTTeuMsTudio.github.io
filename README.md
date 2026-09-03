@@ -8,4 +8,4 @@ Static HTML/CSS/JS. GitHub Actions deploys `main` to Pages, and attaches the And
 
 Games: [`games/`](https://otteumstudio.github.io/games/) — starting a top-down strategy/shooter in Unreal Engine 5.8 with Blueprints, plus First Game in Unreal gameplay, Android and Windows packaged builds, and the earlier FHOU recordings. The old [`firstgame/`](https://otteumstudio.github.io/firstgame/) URL redirects here.
 
-3D modeling: [`modeling/`](https://otteumstudio.github.io/modeling/) — MeshForge, a Rust polygonal editor compiled to WebAssembly.
+Rust: [`rust/`](https://otteumstudio.github.io/rust/) — oTTeCAD, a 3D modeler written in system-level Rust and compiled to WebAssembly. The old [`modeling/`](https://otteumstudio.github.io/modeling/) URL redirects here.
