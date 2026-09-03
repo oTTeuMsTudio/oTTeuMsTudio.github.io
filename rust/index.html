@@ -56,32 +56,66 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
     <main id="editor" class="editor-shell">
       <div class="editor-intro">
-        <p class="kicker">Rust</p>
-        <h1>Writing my own 3D modeler</h1>
-        <p>
-          I am building oTTeCAD in Rust system-level code — mesh topology, GPU
-          viewport, tools, and undo I own. Not a plugin, and not a script on top
-          of someone else's editor. The same workbench compiles to WebAssembly
-          and runs here.
-        </p>
-        <p>
-          This is the hard path. System-level Rust sits next to C and C++: you
-          talk to the GPU, lay out bytes, and keep a mesh alive without a
-          runtime holding your hand. There is no garbage collector. If a vertex
-          buffer, an undo stack, or a selection set is allocated, I own it until
-          it is dropped. The borrow checker will not compile until that story is
-          true — no dangling pointers, no use-after-free, no two writers on the
-          same memory.
-        </p>
-        <p>
-          Memory management is the argument of the language. Each value has one
-          owner. Other code may borrow it for a limited time. Lifetimes are the
-          compiler proving those borrows do not outlive the owner. That is slower
-          to write than Python, JavaScript, or a high-level engine script. It is
-          also why this editor can run next to the metal — native on the
-          desktop, WebAssembly here — without leaking, and without a GC pause
-          walking the heap.
-        </p>
+        <div class="editor-copy">
+          <p class="kicker">Rust</p>
+          <h1>Writing my own 3D modeler</h1>
+          <p>
+            I am building oTTeCAD in Rust system-level code — mesh topology, GPU
+            viewport, tools, and undo I own. Not a plugin, and not a script on top
+            of someone else's editor. The same workbench compiles to WebAssembly
+            and runs here.
+          </p>
+          <p>
+            This is the hard path. System-level Rust sits next to C and C++: you
+            talk to the GPU, lay out bytes, and keep a mesh alive without a
+            runtime holding your hand. There is no garbage collector. If a vertex
+            buffer, an undo stack, or a selection set is allocated, I own it until
+            it is dropped. The borrow checker will not compile until that story is
+            true — no dangling pointers, no use-after-free, no two writers on the
+            same memory.
+          </p>
+          <p>
+            Memory management is the argument of the language. Each value has one
+            owner. Other code may borrow it for a limited time. Lifetimes are the
+            compiler proving those borrows do not outlive the owner. That is slower
+            to write than Python, JavaScript, or a high-level engine script. It is
+            also why this editor can run next to the metal — native on the
+            desktop, WebAssembly here — without leaking, and without a GC pause
+            walking the heap.
+          </p>
+        </div>
+        <figure class="code-example">
+          <figcaption>Memory — one owner, borrows, then drop. No GC.</figcaption>
+          <pre><code><span class="cm">// Mesh owns the vertex buffer. Drop frees it — no garbage collector.</span>
+<span class="kw">struct</span> Mesh {
+    verts: Vec&lt;[f32; 3]&gt;,
+}
+
+<span class="kw">fn</span> translate(mesh: <span class="kw">&amp;mut</span> Mesh) {
+    <span class="cm">// Exclusive borrow: only this function may write.</span>
+    <span class="kw">for</span> v <span class="kw">in</span> <span class="kw">&amp;mut</span> mesh.verts {
+        v[1] += 1.0;
+    }
+} <span class="cm">// &amp;mut ends — owner may use mesh again.</span>
+
+<span class="kw">fn</span> count(mesh: <span class="kw">&amp;</span>Mesh) -&gt; usize {
+    mesh.verts.len() <span class="cm">// shared borrow: readers, no writers</span>
+}
+
+<span class="kw">fn</span> consume(mesh: Mesh) {
+    <span class="kw">let</span> _n = mesh.verts.len();
+} <span class="cm">// Mesh dropped here. Vec frees the heap. No GC scan.</span>
+
+<span class="kw">fn</span> main() {
+    <span class="kw">let mut</span> mesh = Mesh {
+        verts: vec![[0.0; 3]; 8],
+    };
+    translate(<span class="kw">&amp;mut</span> mesh);
+    <span class="kw">assert_eq!</span>(count(<span class="kw">&amp;</span>mesh), 8);
+    consume(mesh); <span class="cm">// ownership moves</span>
+    <span class="cm">// count(&amp;mesh); // does not compile</span>
+}</code></pre>
+        </figure>
       </div>
       <p class="editor-mobile">
         oTTeCAD is a desktop modeler. Open this page on a computer with WebGPU or WebGL2
