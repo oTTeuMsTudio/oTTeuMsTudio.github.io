@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rust — oTTeCAD — oTTeuM sTudio</title>
+    <title>Rust — engine and oTTeCAD — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="oTTeCAD is a 3D modeler written in system-level Rust: ownership, borrowing, and no garbage collector — compiled to WebAssembly."
+      content="How to write a game engine like Fyrox in system-level Rust and push it to GitHub, then oTTeCAD — a 3D modeler compiled to WebAssembly."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,7 +30,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 </script>
   <link rel="modulepreload" href="./ottecad-14bcb915af6db510.js" crossorigin="anonymous" integrity="sha384-A+ExG9qGI7Q7UK7l8fj/rJ5Ulf9UOUMpBzsYPn/mL/ATzUxVPLpKPSgiiRZ1OjPF"><link rel="preload" href="./ottecad-14bcb915af6db510_bg.wasm" crossorigin="anonymous" integrity="sha384-WUcZnvtrU6oiDebExi4E/r9YppfTmgjomPk88j0InWgIrkCHdRP+5ECMwBZKbwTB" as="fetch" type="application/wasm"></head>
   <body class="rust">
-    <a class="skip" href="#editor">Skip to editor</a>
+    <a class="skip" href="#editor">Skip to oTTeCAD</a>
     <header class="nav">
       <div class="nav-inner">
         <a class="brand" href="../index.html">
@@ -54,7 +54,233 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
       </div>
     </header>
 
-    <main id="editor" class="editor-shell">
+    <main id="main">
+      <section id="engine" class="engine-guide">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Systems programming</p>
+            <h1>Write a game engine like Fyrox</h1>
+            <p class="lede">
+              You own the window, the GPU, the scene, and the tick. Same argument as
+              oTTeCAD below — no garbage collector, one owner for every buffer — then
+              you push the crate to GitHub.
+            </p>
+          </div>
+          <div class="actions" style="margin-bottom: 1.8rem">
+            <a class="btn btn-lime" href="#editor">Open oTTeCAD</a>
+            <a class="btn btn-ghost" href="https://fyrox.rs" rel="noopener noreferrer">Fyrox.rs</a>
+          </div>
+          <p>
+            I used Fyrox before Unreal. Fyrox is a 3D engine and a scene editor, both
+            written in Rust. The renderer talks to the GPU. The scene is a graph of
+            nodes you own. Scripts tick. The editor can save the world. That is the
+            whole job of an engine — not a framework that hides the metal, a program
+            that <em>is</em> the metal.
+          </p>
+          <p>
+            You do not beat Unreal by starting here. You learn the loop Unreal already
+            solved: window, device, scene, tick, present. System-level Rust is the
+            language for that loop. There is no garbage collector. Each swapchain
+            image, each node, each command encoder has one owner. The borrow checker
+            will not compile a frame that writes the scene while the renderer still
+            holds it.
+          </p>
+          <p>
+            Fyrox’s public source is the map:
+            <a class="ext" href="https://fyrox.rs" rel="noopener noreferrer">fyrox.rs</a>
+            ·
+            <a class="ext" href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">github.com/FyroxEngine/Fyrox</a>.
+            Copy the architecture. Name the crate yours. Then put it on GitHub so
+            other people can <code>cargo build</code> it.
+          </p>
+
+          <h2>The systems you actually write</h2>
+          <p>
+            Fyrox is not one file. It is a handful of crates that own one job each.
+            Write them in this order. A spinning mesh with a camera you own is already
+            an engine. The editor comes last — that is what makes Fyrox feel like
+            Fyrox, and it is also the part that takes years.
+          </p>
+          <div class="engine-systems">
+            <article class="path-item">
+              <span class="status">01</span>
+              <strong>Window and input</strong>
+              <span>winit event loop. Resize, close, keyboard, mouse. Nothing draws until this exists.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">02</span>
+              <strong>GPU</strong>
+              <span>wgpu device, queue, surface, pipelines. You record a command buffer and present. Drop frees it — no GC pause.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">03</span>
+              <strong>Scene graph</strong>
+              <span>Fyrox-style nodes in a pool, addressed by handles, not raw pointers. Transforms, cameras, meshes. Not a Bevy ECS unless you want one.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">04</span>
+              <strong>Resources</strong>
+              <span>Load meshes, textures, and scenes from disk. One owner of the bytes. The GPU gets a copy you also own.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">05</span>
+              <strong>The tick</strong>
+              <span>Input → scripts / physics → render. Exclusive borrow of the scene, then a shared view for draw. That order is the engine.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">06</span>
+              <strong>Editor, then GitHub</strong>
+              <span>Inspect nodes, gizmos, serialize the scene. Then a README, a license, and <code>git push</code> so the crate is a project, not a folder.</span>
+            </article>
+          </div>
+
+          <h2>Own the scene, then the frame</h2>
+          <div class="engine-split">
+            <div class="engine-copy">
+              <p>
+                Memory is the argument, same as the modeler below. A C++ engine leaks
+                when a node outlives its mesh. A garbage-collected engine pauses when
+                the heap is walked mid-frame. Rust makes the story compile: the
+                <code>Scene</code> owns every <code>Node</code>. A <code>Handle</code>
+                is an index, not a pointer that can dangle. <code>tick</code> takes
+                <code>&amp;mut self</code> so scripts and physics get exclusive write.
+                <code>render</code> takes <code>&amp;self</code> so the GPU path may
+                only read.
+              </p>
+              <p>
+                That is slower to write than a high-level engine script. It is also
+                why the frame can run next to the metal — native on the desktop,
+                WebAssembly in a browser — without a runtime holding your hand.
+              </p>
+              <p>
+                Start with <code>core</code> + a window that clears a color. A cube
+                next. Physics and an editor after the cube is yours. Fyrox took years
+                of this. Do not begin by rewriting the editor.
+              </p>
+            </div>
+            <figure class="code-example">
+              <figcaption>Scene pool — handles, not pointers. Engine owns the tick.</figcaption>
+              <pre><code><span class="cm">// Scene owns every node. Handles are indices, not pointers.</span>
+<span class="kw">struct</span> Handle(u32);
+
+<span class="kw">struct</span> Node {
+    name: String,
+    local: [f32; 16],
+    children: Vec&lt;Handle&gt;,
+}
+
+<span class="kw">struct</span> Scene {
+    nodes: Vec&lt;Node&gt;,
+}
+
+<span class="kw">struct</span> Engine {
+    scene: Scene,
+    <span class="cm">// gpu: Device + Queue + Surface — also owned here</span>
+}
+
+<span class="kw">impl</span> Engine {
+    <span class="kw">fn</span> tick(&amp;<span class="kw">mut</span> self, dt: f32) {
+        self.update(dt); <span class="cm">// exclusive: scripts, physics</span>
+        self.render();   <span class="cm">// then a shared view for draw</span>
+    }
+
+    <span class="kw">fn</span> update(&amp;<span class="kw">mut</span> self, dt: f32) {
+        <span class="kw">for</span> node <span class="kw">in</span> &amp;<span class="kw">mut</span> self.scene.nodes {
+            node.local[13] += dt; <span class="cm">// translate Y</span>
+        }
+    }
+
+    <span class="kw">fn</span> render(&amp;self) {
+        <span class="kw">let</span> _n = self.scene.nodes.len();
+        <span class="cm">// encode commands, present. Drop frees the encoder. No GC.</span>
+    }
+}
+
+<span class="kw">fn</span> main() {
+    <span class="kw">let mut</span> engine = Engine {
+        scene: Scene { nodes: vec![] },
+    };
+    engine.tick(1.0 / 60.0);
+}</code></pre>
+            </figure>
+          </div>
+
+          <h2>Crate map</h2>
+          <p>
+            Split when a module gets heavy. Cargo workspaces keep compile times and
+            ownership honest. This is the Fyrox-shaped cut, not a clone of their
+            names.
+          </p>
+          <pre class="engine-tree"><code>my-engine/
+  Cargo.toml                 <span class="cm"># [workspace] members</span>
+  crates/
+    core/                    <span class="cm"># math, pool of handles, uuid</span>
+    graph/                   <span class="cm"># scene nodes, transforms, cameras</span>
+    render/                  <span class="cm"># wgpu device, pipelines, present</span>
+    resource/                <span class="cm"># load meshes, textures, scenes</span>
+    engine/                  <span class="cm"># the tick — glue, not magic</span>
+    editor/                  <span class="cm"># inspect, gizmos, save — last</span>
+  README.md
+  LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Rust itself</span>
+  .gitignore                 <span class="cm"># /target, *.pdb</span></code></pre>
+
+          <h2>Push it to GitHub</h2>
+          <p>
+            A crate that only lives on your disk is a sketch. GitHub is how it
+            becomes a project other people can clone, compile, and fork. Install
+            Rust from
+            <a class="ext" href="https://rustup.rs" rel="noopener noreferrer">rustup.rs</a>
+            so <code>cargo --version</code> prints. Install
+            <a class="ext" href="https://cli.github.com" rel="noopener noreferrer">GitHub CLI</a>
+            if you want <code>gh repo create</code> in one step.
+          </p>
+          <ol class="engine-steps">
+            <li>
+              Scaffold: <code>cargo new my-engine --lib</code>. Split into the
+              workspace above when the first module is no longer a sketch.
+            </li>
+            <li>
+              Keep build junk out of git. Cargo already writes a
+              <code>.gitignore</code> with <code>/target</code>. Add
+              <code>*.pdb</code> on Windows.
+            </li>
+            <li>
+              Write <code>README.md</code> — what it is, how to
+              <code>cargo run -p editor</code>, what GPU it needs. Add
+              <code>LICENSE</code>. MIT OR Apache-2.0 is the Rust default, and
+              Fyrox’s.
+            </li>
+            <li>
+              Commit locally, then publish. <code>gh</code> creates the empty
+              repo and pushes in one command. Without it, create the repo on
+              github.com and add the remote yourself.
+            </li>
+          </ol>
+          <figure class="code-example" style="margin-top: 1.1rem">
+            <figcaption>Git — commit the crate, then push origin</figcaption>
+            <pre><code><span class="cm"># After cargo new my-engine --lib, and a README + LICENSE</span>
+git init
+git add README.md LICENSE Cargo.toml src .gitignore
+git commit -m <span class="kw">"Initial engine crate"</span>
+
+<span class="cm"># GitHub CLI — public repo, this folder, push</span>
+gh repo create my-engine --public --source=. --remote=origin --push
+
+<span class="cm"># Without gh:</span>
+<span class="cm"># git remote add origin git@github.com:YOU/my-engine.git</span>
+<span class="cm"># git branch -M main</span>
+<span class="cm"># git push -u origin main</span></code></pre>
+          </figure>
+          <p style="margin-top: 1rem">
+            Optional next: a GitHub Action that runs <code>cargo test</code> on
+            every push. Optional later: compile a wasm demo and park it on GitHub
+            Pages — the same way oTTeCAD sits on this site. The modeler below is
+            that discipline applied to mesh topology instead of a scene graph.
+          </p>
+        </div>
+      </section>
+
+      <section id="editor" class="editor-shell">
       <div class="editor-intro">
         <div class="editor-copy">
           <p class="kicker">Rust</p>
@@ -129,7 +355,14 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         </div>
         <canvas id="ottecad-canvas" tabindex="0" oncontextmenu="return false;"></canvas>
       </div>
+      </section>
     </main>
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>oTTeuM sTudio · Unreal Engine game dev beginner</span>
+        <span>© <span data-year></span> oTTeuM sTudio</span>
+      </div>
+    </footer>
     <script src="../js/main.js"></script>
   </body>
 </html>

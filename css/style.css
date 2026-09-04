@@ -707,7 +707,9 @@ body.nav-open .nav-links {
   .about-band,
   .feature-play,
   .download-grid,
-  .clip-grid {
+  .clip-grid,
+  .engine-systems,
+  .engine-split {
     grid-template-columns: 1fr;
   }
 
@@ -759,18 +761,119 @@ body.nav-open .nav-links {
 
 /* Rust / oTTeCAD */
 body.rust {
-  overflow: hidden;
-  height: 100%;
   background: #08090d;
-}
-
-html:has(body.rust) {
-  height: 100%;
-  overflow: hidden;
 }
 
 body.rust .grain {
   display: none;
+}
+
+.engine-guide {
+  padding: 2.6rem 0 3.2rem;
+  border-bottom: 1px solid var(--line);
+  background: #08090d;
+}
+
+#engine,
+#editor {
+  scroll-margin-top: var(--nav-h);
+}
+
+.engine-guide .section-head h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.engine-guide .lede {
+  max-width: 44rem;
+}
+
+.engine-guide a.ext {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.engine-guide h2 {
+  margin: 2.4rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.engine-guide > .wrap > p,
+.engine-copy p {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--mist);
+}
+
+.engine-guide > .wrap > p + p,
+.engine-copy p + p {
+  margin-top: 0.75rem;
+}
+
+.engine-systems {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.5rem 0 0;
+}
+
+.engine-split {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) minmax(22rem, 1.15fr);
+  gap: 1.2rem 1.6rem;
+  align-items: start;
+  margin: 0;
+}
+
+.engine-guide .code-example {
+  margin-top: 0.35rem;
+}
+
+.engine-guide .code-example pre {
+  max-height: min(32rem, 70vh);
+}
+
+.engine-tree {
+  margin: 0.9rem 0 0;
+  padding: 0.95rem 1.05rem;
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.engine-tree .cm {
+  color: var(--muted);
+}
+
+.engine-steps {
+  margin: 0.9rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--mist);
+  max-width: 46rem;
+}
+
+.engine-steps li + li {
+  margin-top: 0.55rem;
+}
+
+.engine-steps code,
+.engine-guide p code,
+.engine-guide .path-item code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--lime);
 }
 
 .editor-intro {
@@ -860,7 +963,8 @@ body.rust .grain {
 }
 
 .editor-shell {
-  height: calc(100vh - var(--nav-h));
+  padding: 0;
+  min-height: calc(100vh - var(--nav-h));
   display: flex;
   flex-direction: column;
 }
@@ -868,7 +972,8 @@ body.rust .grain {
 .editor-stage {
   position: relative;
   flex: 1;
-  min-height: 0;
+  min-height: 70vh;
+  height: 78vh;
   background: #0c0e14;
   border-top: 1px solid var(--line);
 }
@@ -941,7 +1046,10 @@ body.rust .grain {
 
   .editor-intro {
     padding: 0.7rem 1.2rem 0.8rem;
-    max-height: 42vh;
-    overflow-y: auto;
+  }
+
+  .editor-stage {
+    height: 70vh;
+    min-height: 22rem;
   }
 }
