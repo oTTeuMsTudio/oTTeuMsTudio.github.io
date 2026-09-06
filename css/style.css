@@ -253,9 +253,14 @@ select {
 }
 
 .lede {
-  max-width: 38rem;
+  max-width: 42rem;
   color: var(--mist);
   font-size: 1.12rem;
+}
+
+.hero .lede strong {
+  color: var(--lime);
+  font-weight: 650;
 }
 
 .hero-meta {
