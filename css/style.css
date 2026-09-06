@@ -664,6 +664,115 @@ p code {
   margin-top: 0.28rem;
 }
 
+/* Games — PCG / world-building guide */
+#pcg,
+#bplearn,
+#topdown,
+#first-game,
+#packaged {
+  scroll-margin-top: var(--nav-h);
+}
+
+.learn-guide h3 {
+  margin: 2.4rem 0 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.learn-guide h4 {
+  margin: 1.5rem 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.learn-guide > .wrap > p,
+.learn-copy p {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--mist);
+}
+
+.learn-guide > .wrap > p + p,
+.learn-copy p + p {
+  margin-top: 0.75rem;
+}
+
+.learn-guide a.ext {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.learn-guide code,
+.guide-steps code,
+.guide-note code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--lime);
+}
+
+.guide-steps {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--mist);
+  max-width: 46rem;
+}
+
+.guide-steps > li + li {
+  margin-top: 0.9rem;
+}
+
+.guide-steps > li > strong:first-child {
+  color: var(--text);
+}
+
+.guide-steps ol,
+.guide-steps ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.guide-steps li li {
+  margin-top: 0.32rem;
+}
+
+.guide-note {
+  margin: 1.15rem 0 0;
+  padding: 0.95rem 1.1rem;
+  max-width: 46rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(17, 24, 20, 0.7);
+  color: var(--mist);
+  font-size: 0.95rem;
+}
+
+.guide-note strong.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.4rem 0 0;
+}
+
+.stack-grid .path-item:last-child {
+  grid-column: 1 / -1;
+}
+
 /* Footer */
 .footer {
   border-top: 1px solid var(--line);
@@ -709,8 +818,13 @@ body.nav-open .nav-links {
   .download-grid,
   .clip-grid,
   .engine-systems,
-  .engine-split {
+  .engine-split,
+  .stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-grid .path-item:last-child {
+    grid-column: auto;
   }
 
   .study.tall,
