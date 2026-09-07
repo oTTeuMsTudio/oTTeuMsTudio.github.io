@@ -586,6 +586,12 @@ section {
   line-height: 1.15;
 }
 
+.rec-lede {
+  max-width: 54rem;
+  margin: 0.2rem 0 0;
+  font-size: 1.02rem;
+}
+
 .rec-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
