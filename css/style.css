@@ -561,6 +561,53 @@ section {
   padding: 3.5rem 0 1rem;
 }
 
+/* Practical recommendation — top of Home / Games */
+#recommendation {
+  scroll-margin-top: var(--nav-h);
+}
+
+.rec-strip {
+  padding: 1.35rem 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(17, 24, 20, 0.92), rgba(12, 17, 13, 0.55));
+}
+
+.rec-head {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.95rem;
+}
+
+.rec-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.rec-grid .path-item {
+  margin: 0;
+  min-width: 0;
+}
+
+.rec-grid .path-item span {
+  display: block;
+  overflow-wrap: break-word;
+}
+
+.rec-grid .path-item a {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 /* Games / video */
 .clip-grid {
   display: grid;
@@ -824,7 +871,8 @@ body.nav-open .nav-links {
   .clip-grid,
   .engine-systems,
   .engine-split,
-  .stack-grid {
+  .stack-grid,
+  .rec-grid {
     grid-template-columns: 1fr;
   }
 
