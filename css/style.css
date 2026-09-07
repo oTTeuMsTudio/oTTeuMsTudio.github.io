@@ -592,6 +592,25 @@ section {
   font-size: 1.02rem;
 }
 
+.rec-head-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.9rem 1.4rem;
+}
+
+.rec-head-copy {
+  display: grid;
+  gap: 0.3rem;
+  flex: 1 1 28rem;
+  min-width: 0;
+}
+
+.rec-head-cta .btn {
+  flex: 0 0 auto;
+}
+
 .rec-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -880,6 +899,10 @@ body.nav-open .nav-links {
   .stack-grid,
   .rec-grid {
     grid-template-columns: 1fr;
+  }
+
+  .rec-head-cta .btn {
+    width: 100%;
   }
 
   .stack-grid .path-item:last-child {
