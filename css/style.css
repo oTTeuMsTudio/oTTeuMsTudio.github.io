@@ -641,12 +641,30 @@ section {
   scroll-margin-top: var(--nav-h);
 }
 
-#mcp-hours .rec-example {
-  margin-top: 0.15rem;
+.mcp-hero {
+  background: #050706;
+  border-bottom: 1px solid var(--line);
+}
+
+.mcp-hero-player {
+  width: 100%;
+  background: #000;
+}
+
+.mcp-hero-player .yt-frame {
+  width: 100%;
+  max-height: min(78vh, 920px);
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.mcp-hero .wrap {
+  padding-top: 1.35rem;
+  padding-bottom: 1.6rem;
 }
 
 .mcp-explain {
-  margin-top: 1.15rem;
+  margin-top: 0.15rem;
   display: grid;
   gap: 0.85rem;
 }
