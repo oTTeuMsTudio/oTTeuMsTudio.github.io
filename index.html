@@ -6,7 +6,7 @@
     <title>oTTeuM sTudio — Unreal Engine Game Dev Beginner</title>
     <meta
       name="description"
-      content="oTTeuM sTudio — Unreal Engine beginner. First priority: PCG world-building in Unreal Engine 5.8. Write rules, the engine fills the world. You start in Edit → Plugins."
+      content="oTTeuM sTudio — Unreal Engine beginner. How to use SuperGrok Build (xAI) with Unreal Engine 5.8 MCP, then PCG world-building. You start in Edit → Plugins."
     />
     <link rel="icon" href="images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,6 +44,184 @@
     </header>
 
     <main id="main">
+      <section id="supergrok" class="mcp-hero grok-hero" aria-labelledby="grok-heading">
+        <div class="mcp-hero-player">
+          <div class="yt-frame">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+              poster="images/grok-ue-mcp-desk.jpg"
+              title="SuperGrok Build on one monitor, Unreal Engine 5.8 on the other — spawn a cube over MCP"
+            >
+              <source src="images/grok-ue-mcp-desk.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        <div class="wrap">
+          <div class="rec-head rec-head-cta">
+            <div class="rec-head-copy">
+              <p class="kicker">SuperGrok Build · xAI agent</p>
+              <h2 id="grok-heading">How to use Grok with Unreal Engine 5.8 MCP</h2>
+              <p class="lede rec-lede">
+                SuperGrok Build is xAI’s coding agent in the terminal. Unreal
+                5.8 already ships an MCP server inside the editor. Point Grok
+                at that server and you can spawn, inspect, and light from a
+                prompt — same bridge as the Office Hours video below, this
+                time the client is Grok.
+              </p>
+            </div>
+            <a
+              class="btn btn-lime"
+              href="https://x.ai/cli"
+              rel="noopener noreferrer"
+              >Install SuperGrok</a
+            >
+          </div>
+          <div class="mcp-explain">
+            <p>
+              Grok is not a plugin inside Unreal. It is a local TUI you launch
+              from the project folder. The editor runs an HTTP MCP server on
+              <code>127.0.0.1:8000</code>. Grok talks to that server. Epic’s
+              client-config generator writes JSON for Claude Code, Cursor, VS
+              Code, Gemini, and Codex — <strong>not Grok</strong>. You add the
+              server yourself with <code>grok mcp add</code> or a project
+              <code>.grok/config.toml</code>.
+            </p>
+            <div class="grok-flow" aria-label="How SuperGrok talks to Unreal">
+              <article class="path-item">
+                <span class="status">You type</span>
+                <strong>SuperGrok Build</strong>
+                <span>Run <code>grok</code> from the folder that has your <code>.uproject</code>.</span>
+              </article>
+              <p class="grok-flow-arrow" aria-hidden="true">HTTP MCP →</p>
+              <article class="path-item">
+                <span class="status">Local server</span>
+                <strong>127.0.0.1:8000/mcp</strong>
+                <span>Unreal MCP plugin, auto-started inside the editor.</span>
+              </article>
+              <p class="grok-flow-arrow" aria-hidden="true">game thread →</p>
+              <article class="path-item">
+                <span class="status">Editor</span>
+                <strong>Unreal Engine 5.8</strong>
+                <span>Spawn, select, light, screenshot — one tool call at a time.</span>
+              </article>
+            </div>
+            <div class="rec-grid grok-steps">
+              <article class="path-item">
+                <span class="status">1 · Install Grok</span>
+                <strong>Windows PowerShell</strong>
+                <span>SuperGrok subscription, then:</span>
+                <pre class="term" tabindex="0"><code><span class="prompt">PS&gt;</span> irm https://x.ai/cli/install.ps1 | iex
+<span class="prompt">PS&gt;</span> grok --version
+<span class="prompt">PS&gt;</span> grok</code></pre>
+                <span>First launch opens grok.com to sign in. macOS / Linux: <code>curl -fsSL https://x.ai/cli/install.sh | bash</code>.</span>
+              </article>
+              <article class="path-item">
+                <span class="status">2 · Enable MCP</span>
+                <strong>Three plugins, then auto-start</strong>
+                <span>Edit → Plugins: <strong>Unreal MCP</strong>, <strong>All Toolsets</strong>, <strong>Editor Tool Set</strong>. Restart. Then Edit → Editor Preferences → Model Context Protocol → <strong>Auto Start Server</strong> (port <code>8000</code>, path <code>/mcp</code>). Output Log should show the server starting on port 8000.</span>
+              </article>
+              <article class="path-item">
+                <span class="status">3 · Point Grok at UE</span>
+                <strong>Project-scoped MCP</strong>
+                <span>From the project root:</span>
+                <pre class="term" tabindex="0"><code><span class="prompt">PS&gt;</span> grok mcp add --transport http --scope project unreal-mcp http://127.0.0.1:8000/mcp</code></pre>
+                <span>Or commit <code>.grok/config.toml</code>:</span>
+                <pre class="term" tabindex="0"><code>[mcp_servers.unreal-mcp]
+url = "http://127.0.0.1:8000/mcp"
+enabled = true
+startup_timeout_sec = 30
+tool_timeout_sec = 120</code></pre>
+              </article>
+              <article class="path-item">
+                <span class="status">4 · Every session</span>
+                <strong>Unreal first, then Grok</strong>
+                <span>Open the <code>.uproject</code>. Wait for the MCP log line. Then from that folder run <code>grok</code>. In the TUI: <code>/mcps</code> → <code>unreal-mcp [ready]</code>. After any editor restart, press <code>r</code> to re-handshake. Optional: <code>/grok-ue-mcp</code> if you cloned the starter project below.</span>
+              </article>
+            </div>
+            <h3>First prompts</h3>
+            <p>
+              Issue one ask at a time. Epic serializes tools on the game
+              thread — stacking ten spawns in one prompt can hang.
+            </p>
+            <ol class="guide-steps grok-prompts">
+              <li>
+                <strong>Health.</strong> “What MCP tools do you have from
+                unreal-mcp?” then “List available Unreal toolsets.”
+              </li>
+              <li>
+                <strong>Read.</strong> “What actors are in the current level?”
+                “What do I have selected in the editor?”
+              </li>
+              <li>
+                <strong>Write.</strong> “Spawn a static mesh cube at the world
+                origin named GrokTestCube.” Then “Focus the viewport on
+                GrokTestCube.”
+              </li>
+              <li>
+                <strong>Save.</strong> Confirm the cube in Outliner and
+                viewport, then <strong>Ctrl+S</strong>. You still open the
+                editor yourself. MCP does not replace a restart.
+              </li>
+            </ol>
+            <p>
+              If a cube does not appear in about a minute, the harness or the
+              server is the problem — not the prompt. Filter Output Log by
+              <code>LogModelContextProtocol</code>, then run
+              <code>grok mcp doctor unreal-mcp</code>.
+            </p>
+            <div class="grok-shots">
+              <figure class="panel">
+                <img
+                  src="images/grok-ue-mcp-ready.jpg"
+                  alt="Grok TUI /mcps modal showing local unreal-mcp marked ready"
+                  width="1280"
+                  height="720"
+                />
+                <figcaption>
+                  SuperGrok <code>/mcps</code> — <code>unreal-mcp [ready]</code>.
+                  This is the handshake. Press <code>r</code> after an editor
+                  restart.
+                </figcaption>
+              </figure>
+              <figure class="panel">
+                <img
+                  src="images/grok-ue-mcp-cube.jpg"
+                  alt="Unreal Editor 5.8 viewport with GrokTestCube selected at the origin"
+                  width="1280"
+                  height="720"
+                />
+                <figcaption>
+                  First write test: Grok spawned <code>GrokTestCube</code> at
+                  the origin through SceneTools. Confirm in the viewport, then
+                  save.
+                </figcaption>
+              </figure>
+            </div>
+            <p class="grok-credit">
+              Screenshots from
+              <a
+                class="ext"
+                href="https://github.com/BrokenGameplayStudios/GrokUE_MCP"
+                rel="noopener noreferrer"
+                >BrokenGameplayStudios/GrokUE_MCP</a
+              >
+              — a blank UE 5.8 project already wired for Grok. Epic’s plugin
+              walkthrough is the Office Hours video below. Docs:
+              <a
+                class="ext"
+                href="https://dev.epicgames.com/documentation/unreal-engine/unreal-mcp-in-unreal-editor"
+                rel="noopener noreferrer"
+                >Unreal MCP in Unreal Editor</a
+              >.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="mcp-hours" class="mcp-hero" aria-labelledby="mcp-heading">
         <div class="mcp-hero-player">
           <div class="yt-frame">
@@ -78,12 +256,13 @@
           <div class="mcp-explain">
             <p>
               MCP is not a chatbot bolted onto Unreal. It is a server that
-              starts <em>inside</em> the editor. Your coding agent — Claude
-              Code in this session, or Cursor, VS Code, Gemini, or Codex —
-              talks to that server over local HTTP. The agent can then do
-              editor work: right-click, drag from the Content Browser, spawn
-              actors, set lights, make materials. 5.8 already ships the
-              plugin. You bring the agent.
+              starts <em>inside</em> the editor. Your coding agent —
+              SuperGrok Build in the section above, Claude Code in this
+              session, or Cursor, VS Code, Gemini, or Codex — talks to that
+              server over local HTTP. The agent can then do editor work:
+              right-click, drag from the Content Browser, spawn actors, set
+              lights, make materials. 5.8 already ships the plugin. You
+              bring the agent.
             </p>
             <p>
               The Unreal MCP plugin itself has no tools. It is only the
