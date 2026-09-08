@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rust — Bevy engine and oTTeCAD — oTTeuM sTudio</title>
+    <title>Rust — engine like Renzora and oTTeCAD — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="How to write a game engine based on Bevy in system-level Rust and push it to GitHub, then oTTeCAD — a 3D modeler compiled to WebAssembly."
+      content="How to write a Bevy-based game engine like Renzora — editor, runtime, GitHub Releases — then oTTeCAD, a 3D modeler compiled to WebAssembly."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,94 +59,101 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         <div class="wrap">
           <div class="section-head">
             <p class="kicker">Systems programming</p>
-            <h1>Write a game engine based on Bevy</h1>
+            <h1>Write a game engine like Renzora</h1>
             <p class="lede">
-              Bevy already owns the window, the GPU, and the tick. Your engine is
-              plugins, components, and an editor on that World — same argument as
-              oTTeCAD below, no garbage collector — then you push the crate to GitHub.
+              Bevy owns the window, the GPU, and the tick. You write the editor,
+              the runtime, and the zip on GitHub Releases — same argument as
+              oTTeCAD below, no garbage collector.
             </p>
           </div>
           <div class="actions" style="margin-bottom: 1.8rem">
             <a class="btn btn-lime" href="#editor">Open oTTeCAD</a>
-            <a class="btn btn-ghost" href="https://bevy.org" rel="noopener noreferrer">Bevy.org</a>
             <a
               class="btn btn-ghost"
-              href="https://www.reddit.com/r/rust/comments/1waahkt/im_working_on_a_rust_game_engine_based_on_bevy/"
+              href="https://github.com/renzora/engine/releases"
               rel="noopener noreferrer"
-              >The Reddit post</a
+              >Renzora Releases</a
             >
+            <a class="btn btn-ghost" href="https://renzora.com" rel="noopener noreferrer">renzora.com</a>
           </div>
           <p>
-            Posts like
+            <a class="ext" href="https://github.com/renzora/engine" rel="noopener noreferrer">Renzora</a>
+            is a 3D engine and a visual editor, both on
+            <a class="ext" href="https://bevy.org" rel="noopener noreferrer">Bevy 0.19</a>.
+            You unzip <code>windows-x64.zip</code> and run the editor. The same
+            <code>World</code> plays in the runtime. Every system is a plugin you
+            can add or strip. That is the product — not a crate you
+            <code>cargo run</code> once, a build people download from
+            <a
+              class="ext"
+              href="https://github.com/renzora/engine/releases"
+              rel="noopener noreferrer"
+              >github.com/renzora/engine/releases</a
+            >.
+          </p>
+          <p>
+            Look at a tagged alpha like <code>r1-alpha7</code>. GitHub Actions
+            attaches platform zips (Windows, Linux, macOS), a wasm editor,
+            runtime-only templates for export, <code>manifest.json</code>, and
+            SHA-256 on every asset. Nightlies come off <code>main</code> the same
+            way. The
             <a
               class="ext"
               href="https://www.reddit.com/r/rust/comments/1waahkt/im_working_on_a_rust_game_engine_based_on_bevy/"
               rel="noopener noreferrer"
-              >I’m working on a Rust game engine based on Bevy</a
+              >r/rust post</a
             >
-            are not a rewrite of Bevy. Bevy is already a data-driven engine in
-            Rust: an <code>App</code>, a <code>World</code> of entities, and
-            <code>DefaultPlugins</code> for the window (winit), the GPU (wgpu),
-            assets, and input. “Based on Bevy” means you stand on that. You write
-            the opinionated layer — your components, your systems, your scene
-            format, later an editor that inspects the same World.
+            is that engine, in public.
           </p>
           <p>
             You do not beat Unreal by starting here. You learn the loop Unreal
             already solved, with Bevy doing the metal: window, device, scene
-            (ECS), tick, present. System-level Rust is the language for that
-            loop. There is no garbage collector. Each entity, each component,
-            each swapchain image has one owner. Bevy’s scheduler will not run two
+            (ECS), tick, present. Then you split the binary: editor for authors,
+            runtime for the game. System-level Rust is the language for that
+            loop. There is no garbage collector. Each entity, each panel, each
+            swapchain image has one owner. Bevy’s scheduler will not run two
             systems that both write the same component in the same frame — that
             is the borrow checker for the tick.
-          </p>
-          <p>
-            Bevy’s public source is the map:
-            <a class="ext" href="https://bevy.org" rel="noopener noreferrer">bevy.org</a>
-            ·
-            <a class="ext" href="https://github.com/bevyengine/bevy" rel="noopener noreferrer">github.com/bevyengine/bevy</a>.
-            Copy the plugin cut. Name the crate yours. Then put it on GitHub so
-            other people can <code>cargo run --example hello</code> it.
           </p>
 
           <h2>The systems you actually write</h2>
           <p>
-            You do not start by writing an ECS. Bevy’s is the point of “based on
-            Bevy.” You write plugins that register work on the schedule. A
-            spinning cube with a camera is already an engine. The editor comes
-            last — that is what makes a Reddit screenshot look like an engine,
-            and it is also the part that takes years.
+            You do not start by writing an ECS, a C-ABI, or gaussian splats.
+            Bevy’s ECS is the point of “based on Bevy.” Renzora is plugins on
+            that App, then two binaries, then a Release. A spinning cube in a
+            viewport you own is already an engine. Modeling, marketplace, and VR
+            come years later.
           </p>
           <div class="engine-systems">
             <article class="path-item">
               <span class="status">01</span>
               <strong>App and plugins</strong>
-              <span><code>App::new().add_plugins(DefaultPlugins)</code>. Window, input, GPU, assets. Your engine is more plugins on that App.</span>
+              <span><code>App::new().add_plugins(DefaultPlugins)</code>. Window, input, GPU, assets. Your engine is more plugins on that App — Renzora’s cut.</span>
             </article>
             <article class="path-item">
               <span class="status">02</span>
               <strong>ECS</strong>
-              <span>Entity is an ID. Components are structs. Systems are functions. The World owns the rows — not a scene-graph of pointers.</span>
+              <span>Entity is an ID. Components are structs. Systems are functions. The World owns the rows. Editor and runtime share it.</span>
             </article>
             <article class="path-item">
               <span class="status">03</span>
-              <strong>Render</strong>
-              <span>Keep Bevy’s wgpu renderer until you have a reason not to. Custom materials and a render-graph node if you must.</span>
+              <strong>Editor</strong>
+              <span>Viewport, hierarchy, inspector, gizmos, G / R / S. Wireframe / Solid / Material / Rendered. This is what a Renzora screenshot is.</span>
             </article>
             <article class="path-item">
               <span class="status">04</span>
-              <strong>Assets</strong>
-              <span>AssetServer, glTF, your scene format. One owner of the bytes. The GPU gets a copy the World also owns.</span>
+              <strong>Runtime</strong>
+              <span>The game binary — no editor, no dock. Same plugins, same scene. Renzora also runs it with <code>--server</code>.</span>
             </article>
             <article class="path-item">
               <span class="status">05</span>
-              <strong>The schedule</strong>
-              <span>Startup, then Update. Input → gameplay → render. Parallel where queries do not alias. That order is the engine.</span>
+              <strong>Export templates</strong>
+              <span><code>my-runtime-&lt;platform&gt;.zip</code> — runtime only. The editor fetches these so you can package for a machine you are not sitting at.</span>
             </article>
             <article class="path-item">
               <span class="status">06</span>
-              <strong>Editor, then GitHub</strong>
-              <span>Hierarchy, inspector, gizmos on the same World. Then a README, a license, and <code>git push</code> so the crate is a project, not a folder.</span>
+              <strong>GitHub Releases</strong>
+              <span>Tag a build. Actions zips <code>windows-x64.zip</code> (editor + runtime). Nightlies off <code>main</code>. Unzip and run — no compile.</span>
             </article>
           </div>
 
@@ -163,17 +170,16 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 overlap. Drop frees the World — no GC scan.
               </p>
               <p>
-                That is slower to write than a high-level engine script. It is
-                also why the frame can run next to the metal — native on the
-                desktop, WebAssembly in a browser — without a runtime holding
-                your hand.
+                The editor and the runtime are two <code>main</code> functions
+                on the same plugins. The editor adds hierarchy, inspector, and
+                gizmos. The runtime does not. That split is how Renzora ships a
+                24 MB editor zip and a smaller game.
               </p>
               <p>
                 Start with <code>DefaultPlugins</code> and a spinning cube. Your
-                <code>EnginePlugin</code> next. Physics and an editor after the
-                cube is yours. Some people later keep only
-                <code>bevy_ecs</code> and write their own wgpu path. Do not
-                begin there. Do not begin by forking the renderer.
+                <code>EnginePlugin</code> next. An editor viewport after the cube
+                is yours. Do not begin with C-ABI plugins, a marketplace, or
+                forking the renderer.
               </p>
             </div>
             <figure class="code-example">
@@ -185,6 +191,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(EnginePlugin)
+        <span class="cm">// .add_plugins(EditorPlugin)  // editor binary only</span>
         .run();
 }
 
@@ -217,79 +224,90 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
           <h2>Crate map</h2>
           <p>
-            One crate until it hurts. Then a workspace so compile times and
-            ownership stay honest. This is the Bevy-shaped cut: a facade plugin,
-            your data, extra render only if you need it, editor last.
+            One crate until it hurts. Then a workspace so the editor and the
+            runtime stay two binaries on one World. This is the Renzora-shaped
+            cut, not a clone of their crate names.
           </p>
           <pre class="engine-tree"><code>my-engine/
-  Cargo.toml                 <span class="cm"># [workspace] members; pin bevy = "0.19"</span>
+  Cargo.toml                 <span class="cm"># [workspace]; pin bevy = "0.19"</span>
   crates/
-    engine/                  <span class="cm"># facade — DefaultPlugins + EnginePlugin</span>
-    core/                    <span class="cm"># your components, resources, events</span>
-    render/                  <span class="cm"># extra passes / materials — optional</span>
-    editor/                  <span class="cm"># hierarchy, inspector, gizmos — last</span>
-  examples/
-    hello.rs                 <span class="cm"># spinning cube. cargo run --example hello</span>
+    engine/                  <span class="cm"># World, scene, gameplay plugins</span>
+    editor/                  <span class="cm"># viewport, hierarchy, inspector, gizmos</span>
+    runtime/                 <span class="cm"># game binary — no dock, no editor</span>
+  .github/workflows/
+    release.yml              <span class="cm"># tag → platform zips on Releases</span>
   README.md
-  LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Bevy</span>
-  .gitignore                 <span class="cm"># /target, *.pdb</span></code></pre>
+  LICENSE-MIT
+  LICENSE-APACHE             <span class="cm"># same dual license as Bevy and Renzora</span>
+  .gitignore                 <span class="cm"># /target, /dist, *.pdb</span></code></pre>
 
-          <h2>Push it to GitHub</h2>
+          <h2>Ship it like Renzora’s Releases page</h2>
           <p>
-            A crate that only lives on your disk is a sketch. GitHub is how it
-            becomes a project other people can clone, compile, and fork. Install
-            Rust from
+            Source on GitHub is half the job. Renzora’s
+            <a
+              class="ext"
+              href="https://github.com/renzora/engine/releases"
+              rel="noopener noreferrer"
+              >Releases</a
+            >
+            page is the other half: unzip, run the editor, no
+            <code>cargo</code>. Install Rust from
             <a class="ext" href="https://rustup.rs" rel="noopener noreferrer">rustup.rs</a>
-            so <code>cargo --version</code> prints. Install
+            so you can build. Install
             <a class="ext" href="https://cli.github.com" rel="noopener noreferrer">GitHub CLI</a>
-            if you want <code>gh repo create</code> in one step.
+            for <code>gh release create</code>.
           </p>
           <ol class="engine-steps">
             <li>
-              Scaffold: <code>cargo new my-engine --lib</code>. Add
-              <code>bevy = "0.19"</code> in <code>Cargo.toml</code>. On Windows,
-              <code>bevy = { version = "0.19", features = ["dynamic_linking"] }</code>
-              in the example crate keeps iteration faster. Split into the
-              workspace above when the first module is no longer a sketch.
+              Scaffold: <code>cargo new my-engine --lib</code>. Pin
+              <code>bevy = "0.19"</code>. Split into <code>editor</code> and
+              <code>runtime</code> binaries when the cube is yours. On Windows,
+              <code>dynamic_linking</code> on the editor crate keeps iteration
+              faster.
             </li>
             <li>
-              Keep build junk out of git. Cargo already writes a
-              <code>.gitignore</code> with <code>/target</code>. Add
-              <code>*.pdb</code> on Windows.
+              Push the source. README says how to
+              <code>cargo run -p editor</code>, which Bevy version you pin, what
+              GPU it needs. MIT OR Apache-2.0, like Bevy and Renzora.
             </li>
             <li>
-              Write <code>README.md</code> — what it is, how to
-              <code>cargo run --example hello</code>, which Bevy version you
-              pin, what GPU it needs. Add <code>LICENSE</code>. MIT OR
-              Apache-2.0 is the Rust default, and Bevy’s.
+              Stage a dist folder: editor exe + runtime exe + a few assets.
+              Zip it <code>windows-x64.zip</code>. One platform is enough for
+              the first tag. Renzora later adds Linux, macOS, wasm, and
+              runtime-only templates.
             </li>
             <li>
-              Commit locally, then publish. <code>gh</code> creates the empty
-              repo and pushes in one command. Without it, create the repo on
-              github.com and add the remote yourself.
+              Tag and attach. <code>git tag r1-alpha1</code>, push the tag, then
+              <code>gh release create</code> with the zip. A GitHub Action can
+              do that on every tag — and a nightly job off <code>main</code>,
+              the way Renzora names
+              <code>r1-alpha7-nightly-07sep26</code>.
             </li>
           </ol>
           <figure class="code-example" style="margin-top: 1.1rem">
-            <figcaption>Git — commit the crate, then push origin</figcaption>
-            <pre><code><span class="cm"># After cargo new my-engine --lib, bevy in Cargo.toml, README + LICENSE</span>
-git init
-git add README.md LICENSE Cargo.toml src examples .gitignore
-git commit -m <span class="kw">"Initial Bevy engine crate"</span>
-
-<span class="cm"># GitHub CLI — public repo, this folder, push</span>
+            <figcaption>GitHub Releases — zip the editor, tag, upload</figcaption>
+            <pre><code><span class="cm"># Source on GitHub first</span>
 gh repo create my-engine --public --source=. --remote=origin --push
 
-<span class="cm"># Without gh:</span>
-<span class="cm"># git remote add origin git@github.com:YOU/my-engine.git</span>
-<span class="cm"># git branch -M main</span>
-<span class="cm"># git push -u origin main</span></code></pre>
+<span class="cm"># Build and stage one platform zip (Windows here)</span>
+cargo build --release -p editor -p runtime
+mkdir dist\windows-x64
+copy target\release\editor.exe dist\windows-x64\my-editor.exe
+copy target\release\runtime.exe dist\windows-x64\my-runtime.exe
+Compress-Archive dist\windows-x64 windows-x64.zip
+
+<span class="cm"># Tag + Releases page, same shape as renzora/engine/releases</span>
+git tag r1-alpha1
+git push origin r1-alpha1
+gh release create r1-alpha1 windows-x64.zip --title <span class="kw">"My Engine r1-alpha1"</span> --notes <span class="kw">"Unzip and run my-editor.exe"</span></code></pre>
           </figure>
           <p style="margin-top: 1rem">
-            Optional next: a GitHub Action that runs <code>cargo test</code> on
-            every push. Optional later: compile a wasm demo with
-            <code>--target wasm32-unknown-unknown</code> and park it on GitHub
-            Pages — the same way oTTeCAD sits on this site. The modeler below is
-            that discipline applied to mesh topology instead of an ECS World.
+            Later: <code>manifest.json</code> and <code>SHA256SUMS</code> beside
+            the zips. Later: <code>my-runtime-windows-x64.zip</code> as an
+            export template. Later: a wasm editor, the way every Renzora nightly
+            refreshes the playable build. Do not start there. The modeler below
+            is that discipline applied to mesh topology instead of an editor
+            World.
           </p>
         </div>
       </section>
