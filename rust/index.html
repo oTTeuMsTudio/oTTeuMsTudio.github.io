@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rust — engine and oTTeCAD — oTTeuM sTudio</title>
+    <title>Rust — Bevy engine and oTTeCAD — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="How to write a game engine like Fyrox in system-level Rust and push it to GitHub, then oTTeCAD — a 3D modeler compiled to WebAssembly."
+      content="How to write a game engine based on Bevy in system-level Rust and push it to GitHub, then oTTeCAD — a 3D modeler compiled to WebAssembly."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,169 +59,179 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         <div class="wrap">
           <div class="section-head">
             <p class="kicker">Systems programming</p>
-            <h1>Write a game engine like Fyrox</h1>
+            <h1>Write a game engine based on Bevy</h1>
             <p class="lede">
-              You own the window, the GPU, the scene, and the tick. Same argument as
-              oTTeCAD below — no garbage collector, one owner for every buffer — then
-              you push the crate to GitHub.
+              Bevy already owns the window, the GPU, and the tick. Your engine is
+              plugins, components, and an editor on that World — same argument as
+              oTTeCAD below, no garbage collector — then you push the crate to GitHub.
             </p>
           </div>
           <div class="actions" style="margin-bottom: 1.8rem">
             <a class="btn btn-lime" href="#editor">Open oTTeCAD</a>
-            <a class="btn btn-ghost" href="https://fyrox.rs" rel="noopener noreferrer">Fyrox.rs</a>
+            <a class="btn btn-ghost" href="https://bevy.org" rel="noopener noreferrer">Bevy.org</a>
+            <a
+              class="btn btn-ghost"
+              href="https://www.reddit.com/r/rust/comments/1waahkt/im_working_on_a_rust_game_engine_based_on_bevy/"
+              rel="noopener noreferrer"
+              >The Reddit post</a
+            >
           </div>
           <p>
-            I used Fyrox before Unreal. Fyrox is a 3D engine and a scene editor, both
-            written in Rust. The renderer talks to the GPU. The scene is a graph of
-            nodes you own. Scripts tick. The editor can save the world. That is the
-            whole job of an engine — not a framework that hides the metal, a program
-            that <em>is</em> the metal.
+            Posts like
+            <a
+              class="ext"
+              href="https://www.reddit.com/r/rust/comments/1waahkt/im_working_on_a_rust_game_engine_based_on_bevy/"
+              rel="noopener noreferrer"
+              >I’m working on a Rust game engine based on Bevy</a
+            >
+            are not a rewrite of Bevy. Bevy is already a data-driven engine in
+            Rust: an <code>App</code>, a <code>World</code> of entities, and
+            <code>DefaultPlugins</code> for the window (winit), the GPU (wgpu),
+            assets, and input. “Based on Bevy” means you stand on that. You write
+            the opinionated layer — your components, your systems, your scene
+            format, later an editor that inspects the same World.
           </p>
           <p>
-            You do not beat Unreal by starting here. You learn the loop Unreal already
-            solved: window, device, scene, tick, present. System-level Rust is the
-            language for that loop. There is no garbage collector. Each swapchain
-            image, each node, each command encoder has one owner. The borrow checker
-            will not compile a frame that writes the scene while the renderer still
-            holds it.
+            You do not beat Unreal by starting here. You learn the loop Unreal
+            already solved, with Bevy doing the metal: window, device, scene
+            (ECS), tick, present. System-level Rust is the language for that
+            loop. There is no garbage collector. Each entity, each component,
+            each swapchain image has one owner. Bevy’s scheduler will not run two
+            systems that both write the same component in the same frame — that
+            is the borrow checker for the tick.
           </p>
           <p>
-            Fyrox’s public source is the map:
-            <a class="ext" href="https://fyrox.rs" rel="noopener noreferrer">fyrox.rs</a>
+            Bevy’s public source is the map:
+            <a class="ext" href="https://bevy.org" rel="noopener noreferrer">bevy.org</a>
             ·
-            <a class="ext" href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">github.com/FyroxEngine/Fyrox</a>.
-            Copy the architecture. Name the crate yours. Then put it on GitHub so
-            other people can <code>cargo build</code> it.
+            <a class="ext" href="https://github.com/bevyengine/bevy" rel="noopener noreferrer">github.com/bevyengine/bevy</a>.
+            Copy the plugin cut. Name the crate yours. Then put it on GitHub so
+            other people can <code>cargo run --example hello</code> it.
           </p>
 
           <h2>The systems you actually write</h2>
           <p>
-            Fyrox is not one file. It is a handful of crates that own one job each.
-            Write them in this order. A spinning mesh with a camera you own is already
-            an engine. The editor comes last — that is what makes Fyrox feel like
-            Fyrox, and it is also the part that takes years.
+            You do not start by writing an ECS. Bevy’s is the point of “based on
+            Bevy.” You write plugins that register work on the schedule. A
+            spinning cube with a camera is already an engine. The editor comes
+            last — that is what makes a Reddit screenshot look like an engine,
+            and it is also the part that takes years.
           </p>
           <div class="engine-systems">
             <article class="path-item">
               <span class="status">01</span>
-              <strong>Window and input</strong>
-              <span>winit event loop. Resize, close, keyboard, mouse. Nothing draws until this exists.</span>
+              <strong>App and plugins</strong>
+              <span><code>App::new().add_plugins(DefaultPlugins)</code>. Window, input, GPU, assets. Your engine is more plugins on that App.</span>
             </article>
             <article class="path-item">
               <span class="status">02</span>
-              <strong>GPU</strong>
-              <span>wgpu device, queue, surface, pipelines. You record a command buffer and present. Drop frees it — no GC pause.</span>
+              <strong>ECS</strong>
+              <span>Entity is an ID. Components are structs. Systems are functions. The World owns the rows — not a scene-graph of pointers.</span>
             </article>
             <article class="path-item">
               <span class="status">03</span>
-              <strong>Scene graph</strong>
-              <span>Fyrox-style nodes in a pool, addressed by handles, not raw pointers. Transforms, cameras, meshes. Not a Bevy ECS unless you want one.</span>
+              <strong>Render</strong>
+              <span>Keep Bevy’s wgpu renderer until you have a reason not to. Custom materials and a render-graph node if you must.</span>
             </article>
             <article class="path-item">
               <span class="status">04</span>
-              <strong>Resources</strong>
-              <span>Load meshes, textures, and scenes from disk. One owner of the bytes. The GPU gets a copy you also own.</span>
+              <strong>Assets</strong>
+              <span>AssetServer, glTF, your scene format. One owner of the bytes. The GPU gets a copy the World also owns.</span>
             </article>
             <article class="path-item">
               <span class="status">05</span>
-              <strong>The tick</strong>
-              <span>Input → scripts / physics → render. Exclusive borrow of the scene, then a shared view for draw. That order is the engine.</span>
+              <strong>The schedule</strong>
+              <span>Startup, then Update. Input → gameplay → render. Parallel where queries do not alias. That order is the engine.</span>
             </article>
             <article class="path-item">
               <span class="status">06</span>
               <strong>Editor, then GitHub</strong>
-              <span>Inspect nodes, gizmos, serialize the scene. Then a README, a license, and <code>git push</code> so the crate is a project, not a folder.</span>
+              <span>Hierarchy, inspector, gizmos on the same World. Then a README, a license, and <code>git push</code> so the crate is a project, not a folder.</span>
             </article>
           </div>
 
-          <h2>Own the scene, then the frame</h2>
+          <h2>The World owns the frame</h2>
           <div class="engine-split">
             <div class="engine-copy">
               <p>
-                Memory is the argument, same as the modeler below. A C++ engine leaks
-                when a node outlives its mesh. A garbage-collected engine pauses when
-                the heap is walked mid-frame. Rust makes the story compile: the
-                <code>Scene</code> owns every <code>Node</code>. A <code>Handle</code>
-                is an index, not a pointer that can dangle. <code>tick</code> takes
-                <code>&amp;mut self</code> so scripts and physics get exclusive write.
-                <code>render</code> takes <code>&amp;self</code> so the GPU path may
-                only read.
+                Memory is the argument, same as the modeler below. A C++ engine
+                leaks when a node outlives its mesh. A garbage-collected engine
+                pauses when the heap is walked mid-frame. Bevy makes the story
+                compile: the <code>World</code> owns every entity. A
+                <code>Query&lt;&amp;mut Transform&gt;</code> is an exclusive
+                borrow of that column. Two systems that both need it will not
+                overlap. Drop frees the World — no GC scan.
               </p>
               <p>
-                That is slower to write than a high-level engine script. It is also
-                why the frame can run next to the metal — native on the desktop,
-                WebAssembly in a browser — without a runtime holding your hand.
+                That is slower to write than a high-level engine script. It is
+                also why the frame can run next to the metal — native on the
+                desktop, WebAssembly in a browser — without a runtime holding
+                your hand.
               </p>
               <p>
-                Start with <code>core</code> + a window that clears a color. A cube
-                next. Physics and an editor after the cube is yours. Fyrox took years
-                of this. Do not begin by rewriting the editor.
+                Start with <code>DefaultPlugins</code> and a spinning cube. Your
+                <code>EnginePlugin</code> next. Physics and an editor after the
+                cube is yours. Some people later keep only
+                <code>bevy_ecs</code> and write their own wgpu path. Do not
+                begin there. Do not begin by forking the renderer.
               </p>
             </div>
             <figure class="code-example">
-              <figcaption>Scene pool — handles, not pointers. Engine owns the tick.</figcaption>
-              <pre><code><span class="cm">// Scene owns every node. Handles are indices, not pointers.</span>
-<span class="kw">struct</span> Handle(u32);
-
-<span class="kw">struct</span> Node {
-    name: String,
-    local: [f32; 16],
-    children: Vec&lt;Handle&gt;,
-}
-
-<span class="kw">struct</span> Scene {
-    nodes: Vec&lt;Node&gt;,
-}
-
-<span class="kw">struct</span> Engine {
-    scene: Scene,
-    <span class="cm">// gpu: Device + Queue + Surface — also owned here</span>
-}
-
-<span class="kw">impl</span> Engine {
-    <span class="kw">fn</span> tick(&amp;<span class="kw">mut</span> self, dt: f32) {
-        self.update(dt); <span class="cm">// exclusive: scripts, physics</span>
-        self.render();   <span class="cm">// then a shared view for draw</span>
-    }
-
-    <span class="kw">fn</span> update(&amp;<span class="kw">mut</span> self, dt: f32) {
-        <span class="kw">for</span> node <span class="kw">in</span> &amp;<span class="kw">mut</span> self.scene.nodes {
-            node.local[13] += dt; <span class="cm">// translate Y</span>
-        }
-    }
-
-    <span class="kw">fn</span> render(&amp;self) {
-        <span class="kw">let</span> _n = self.scene.nodes.len();
-        <span class="cm">// encode commands, present. Drop frees the encoder. No GC.</span>
-    }
-}
+              <figcaption>Bevy — World owns entities. Plugin owns the tick.</figcaption>
+              <pre><code><span class="cm">// World owns every entity. Query is a borrow of columns, not pointers.</span>
+<span class="kw">use</span> bevy::prelude::*;
 
 <span class="kw">fn</span> main() {
-    <span class="kw">let mut</span> engine = Engine {
-        scene: Scene { nodes: vec![] },
-    };
-    engine.tick(1.0 / 60.0);
-}</code></pre>
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .add_plugins(EnginePlugin)
+        .run();
+}
+
+<span class="kw">pub struct</span> EnginePlugin;
+
+<span class="kw">impl</span> Plugin <span class="kw">for</span> EnginePlugin {
+    <span class="kw">fn</span> build(&amp;self, app: &amp;<span class="kw">mut</span> App) {
+        app.add_systems(Startup, spawn)
+            .add_systems(Update, spin);
+    }
+}
+
+#[derive(Component)]
+<span class="kw">struct</span> Spin(f32);
+
+<span class="kw">fn</span> spawn(<span class="kw">mut</span> commands: Commands) {
+    commands.spawn((
+        Transform::from_xyz(0.0, 0.5, 0.0),
+        Spin(1.0),
+    )); <span class="cm">// World takes ownership</span>
+}
+
+<span class="kw">fn</span> spin(time: Res&lt;Time&gt;, <span class="kw">mut</span> q: Query&lt;(&amp;<span class="kw">mut</span> Transform, &amp;Spin)&gt;) {
+    <span class="kw">for</span> (<span class="kw">mut</span> tf, spin) <span class="kw">in</span> &amp;<span class="kw">mut</span> q {
+        tf.rotate_y(spin.0 * time.delta_secs());
+    }
+} <span class="cm">// exclusive borrow of Transform ends. No GC.</span></code></pre>
             </figure>
           </div>
 
           <h2>Crate map</h2>
           <p>
-            Split when a module gets heavy. Cargo workspaces keep compile times and
-            ownership honest. This is the Fyrox-shaped cut, not a clone of their
-            names.
+            One crate until it hurts. Then a workspace so compile times and
+            ownership stay honest. This is the Bevy-shaped cut: a facade plugin,
+            your data, extra render only if you need it, editor last.
           </p>
           <pre class="engine-tree"><code>my-engine/
-  Cargo.toml                 <span class="cm"># [workspace] members</span>
+  Cargo.toml                 <span class="cm"># [workspace] members; pin bevy = "0.19"</span>
   crates/
-    core/                    <span class="cm"># math, pool of handles, uuid</span>
-    graph/                   <span class="cm"># scene nodes, transforms, cameras</span>
-    render/                  <span class="cm"># wgpu device, pipelines, present</span>
-    resource/                <span class="cm"># load meshes, textures, scenes</span>
-    engine/                  <span class="cm"># the tick — glue, not magic</span>
-    editor/                  <span class="cm"># inspect, gizmos, save — last</span>
+    engine/                  <span class="cm"># facade — DefaultPlugins + EnginePlugin</span>
+    core/                    <span class="cm"># your components, resources, events</span>
+    render/                  <span class="cm"># extra passes / materials — optional</span>
+    editor/                  <span class="cm"># hierarchy, inspector, gizmos — last</span>
+  examples/
+    hello.rs                 <span class="cm"># spinning cube. cargo run --example hello</span>
   README.md
-  LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Rust itself</span>
+  LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Bevy</span>
   .gitignore                 <span class="cm"># /target, *.pdb</span></code></pre>
 
           <h2>Push it to GitHub</h2>
@@ -236,7 +246,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
           </p>
           <ol class="engine-steps">
             <li>
-              Scaffold: <code>cargo new my-engine --lib</code>. Split into the
+              Scaffold: <code>cargo new my-engine --lib</code>. Add
+              <code>bevy = "0.19"</code> in <code>Cargo.toml</code>. On Windows,
+              <code>bevy = { version = "0.19", features = ["dynamic_linking"] }</code>
+              in the example crate keeps iteration faster. Split into the
               workspace above when the first module is no longer a sketch.
             </li>
             <li>
@@ -246,9 +259,9 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             </li>
             <li>
               Write <code>README.md</code> — what it is, how to
-              <code>cargo run -p editor</code>, what GPU it needs. Add
-              <code>LICENSE</code>. MIT OR Apache-2.0 is the Rust default, and
-              Fyrox’s.
+              <code>cargo run --example hello</code>, which Bevy version you
+              pin, what GPU it needs. Add <code>LICENSE</code>. MIT OR
+              Apache-2.0 is the Rust default, and Bevy’s.
             </li>
             <li>
               Commit locally, then publish. <code>gh</code> creates the empty
@@ -258,10 +271,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
           </ol>
           <figure class="code-example" style="margin-top: 1.1rem">
             <figcaption>Git — commit the crate, then push origin</figcaption>
-            <pre><code><span class="cm"># After cargo new my-engine --lib, and a README + LICENSE</span>
+            <pre><code><span class="cm"># After cargo new my-engine --lib, bevy in Cargo.toml, README + LICENSE</span>
 git init
-git add README.md LICENSE Cargo.toml src .gitignore
-git commit -m <span class="kw">"Initial engine crate"</span>
+git add README.md LICENSE Cargo.toml src examples .gitignore
+git commit -m <span class="kw">"Initial Bevy engine crate"</span>
 
 <span class="cm"># GitHub CLI — public repo, this folder, push</span>
 gh repo create my-engine --public --source=. --remote=origin --push
@@ -273,9 +286,10 @@ gh repo create my-engine --public --source=. --remote=origin --push
           </figure>
           <p style="margin-top: 1rem">
             Optional next: a GitHub Action that runs <code>cargo test</code> on
-            every push. Optional later: compile a wasm demo and park it on GitHub
+            every push. Optional later: compile a wasm demo with
+            <code>--target wasm32-unknown-unknown</code> and park it on GitHub
             Pages — the same way oTTeCAD sits on this site. The modeler below is
-            that discipline applied to mesh topology instead of a scene graph.
+            that discipline applied to mesh topology instead of an ECS World.
           </p>
         </div>
       </section>
