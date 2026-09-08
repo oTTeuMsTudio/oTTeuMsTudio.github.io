@@ -637,6 +637,38 @@ section {
   margin-top: 1rem;
 }
 
+#mcp-hours {
+  scroll-margin-top: var(--nav-h);
+}
+
+#mcp-hours .rec-example {
+  margin-top: 0.15rem;
+}
+
+.mcp-explain {
+  margin-top: 1.15rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.mcp-explain > p {
+  margin: 0;
+  color: var(--mist);
+  max-width: 54rem;
+}
+
+.mcp-explain h3 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: -0.03em;
+}
+
+.mcp-explain .rec-grid {
+  margin-top: 0.15rem;
+  grid-template-columns: 1fr 1fr;
+}
+
 .yt-frame {
   position: relative;
   overflow: hidden;

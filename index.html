@@ -44,6 +44,118 @@
     </header>
 
     <main id="main">
+      <section id="mcp-hours" class="rec-strip" aria-labelledby="mcp-heading">
+        <div class="wrap">
+          <div class="rec-head rec-head-cta">
+            <div class="rec-head-copy">
+              <p class="kicker">Office Hours · Unreal Engine 5.8</p>
+              <h2 id="mcp-heading">Getting Started with MCP</h2>
+              <p class="lede rec-lede">
+                Epic’s August Education Office Hours: how the experimental
+                Model Context Protocol plugin lets an AI agent work inside the
+                editor the same way you do — spawn, paint, light, inspect —
+                if you turn on the right plugins first.
+              </p>
+            </div>
+            <a
+              class="btn btn-ghost"
+              href="https://www.youtube.com/watch?v=k0tgmrBuIJc"
+              rel="noopener noreferrer"
+              >Watch on YouTube</a
+            >
+          </div>
+          <figure class="panel video-stage rec-example">
+            <div class="yt-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/k0tgmrBuIJc"
+                title="Getting Started with MCP in Unreal Engine 5.8"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <figcaption class="video-caption">
+              <h3>Epic Games Education Office Hours</h3>
+              <p>
+                Jamie Hurcomb hosts. Sam Deiter, senior Unreal Engine
+                instructor, walks the experimental MCP plugin from a blank
+                third-person project to a live agent in the level.
+              </p>
+              <div class="clip-meta">
+                <span>YouTube</span>
+                <span>1:00:52</span>
+                <span>UE 5.8 · MCP · Claude Code</span>
+              </div>
+            </figcaption>
+          </figure>
+          <div class="mcp-explain">
+            <p>
+              MCP is not a chatbot bolted onto Unreal. It is a server that
+              starts <em>inside</em> the editor. Your coding agent — Claude
+              Code in this session, or Cursor, VS Code, Gemini, or Codex —
+              talks to that server over local HTTP. The agent can then do
+              editor work: right-click, drag from the Content Browser, spawn
+              actors, set lights, make materials. 5.8 already ships the
+              plugin. You bring the agent.
+            </p>
+            <p>
+              The Unreal MCP plugin itself has no tools. It is only the
+              bridge. Tools come from toolsets. Skip those and the agent
+              can connect and still do nothing. Enable three plugins, not
+              the two the docs often mention: <strong>Unreal MCP</strong>,
+              <strong>All Toolsets</strong>, and
+              <strong>Editor Tool Set</strong>. Restart. Only after that
+              restart does Model Context Protocol show up in Editor
+              Preferences. Check <strong>Auto Start Server</strong> so you
+              are not typing a console command every launch.
+            </p>
+            <div class="rec-grid">
+              <article class="path-item">
+                <span class="status">1 · What it is</span>
+                <strong>Bridge, not magic</strong>
+                <span>Server in the editor. Agent talks to it. Experimental in 5.8 — APIs can rename, drop, or grow. Ship on 5.8 if you depend on it.</span>
+              </article>
+              <article class="path-item">
+                <span class="status">2 · Setup</span>
+                <strong>Three plugins, then config</strong>
+                <span>Enable, restart, auto-start. Console: <code>ModelContextProtocol.StartServer</code>, then <code>ModelContextProtocol.GenerateClientConfig ClaudeCode</code> (or All). Launch the agent from the project root so it finds <code>.mcp.json</code>.</span>
+              </article>
+              <article class="path-item">
+                <span class="status">3 · First prompts</span>
+                <strong>Spawn, then color</strong>
+                <span>Sam’s first live ask: spawn cubes, color, lights at 0, 0, 100. If a simple material does not appear in about a minute, the harness or the server is the problem — not the prompt.</span>
+              </article>
+              <article class="path-item">
+                <span class="status">4 · Limits</span>
+                <strong>Too many tools</strong>
+                <span>Unreal exposes so much that it can blow the model’s context. Keep toolsets lean. Output Log + verbose MCP logging. MCP Inspector lists every tool and lets you call it with no agent in the way.</span>
+              </article>
+            </div>
+            <h3>What the hour actually covers</h3>
+            <p>
+              About forty-five minutes of demo, then live Q&amp;A. Third-person
+              template, project named MCP, Blueprint defaults. After plugins
+              and auto-start, the Output Log should say the server is
+              transmitting to your LLM provider — that line is the proof it
+              started. GenerateClientConfig writes the JSON the agent needs.
+              If you are not sure which client, generate All.
+            </p>
+            <p>
+              Q&amp;A: Fortnite / UEFN is not this plugin; there is a separate
+              Python path. Context size is a known issue — Epic exposed more
+              than many models can hold. State of Unreal has the bigger
+              living-room-to-city MCP demo. Next office hours may hit
+              MetaHuman, animation, Sequencer.
+            </p>
+            <p>
+              For this studio: PCG world-building still comes first. MCP is
+              the other 5.8 door — talk to the editor instead of clicking
+              every spawn. Experimental, local-only, bring your own agent.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="recommendation" class="rec-strip" aria-labelledby="rec-heading">
         <div class="wrap">
           <div class="rec-head rec-head-cta">
