@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rust — Renzora-style engine and oTTeCAD — oTTeuM sTudio</title>
+    <title>Rust — game engines and oTTeCAD — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="A Bevy 0.19 engine page like renzora.com: get the editor, build from source, then how to write one and ship GitHub Releases. oTTeCAD below."
+      content="Game engines as system-level Rust: ownership, no garbage collector, the tick. How to write one, then oTTeCAD — a 3D modeler compiled to WebAssembly."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,7 +30,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 </script>
   <link rel="modulepreload" href="./ottecad-14bcb915af6db510.js" crossorigin="anonymous" integrity="sha384-A+ExG9qGI7Q7UK7l8fj/rJ5Ulf9UOUMpBzsYPn/mL/ATzUxVPLpKPSgiiRZ1OjPF"><link rel="preload" href="./ottecad-14bcb915af6db510_bg.wasm" crossorigin="anonymous" integrity="sha384-WUcZnvtrU6oiDebExi4E/r9YppfTmgjomPk88j0InWgIrkCHdRP+5ECMwBZKbwTB" as="fetch" type="application/wasm"></head>
   <body class="rust">
-    <a class="skip" href="#editor">Skip to oTTeCAD</a>
+    <a class="skip" href="#engine">Skip to content</a>
     <header class="nav">
       <div class="nav-inner">
         <a class="brand" href="../index.html">
@@ -55,386 +55,250 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
     </header>
 
     <main id="main">
-      <section id="engine" class="engine-landing" aria-labelledby="engine-name">
-        <div class="wrap">
-          <p class="kicker">r1-alpha7 · Early Access</p>
-          <h1 id="engine-name">Renzora Engine</h1>
-          <p class="engine-sub">Powered by Rust &amp; Bevy 0.19</p>
-          <p class="lede">
-            The first fully-featured game engine built on Bevy. Get the editor
-            for Windows, macOS, and Linux, or clone the repo and build it with
-            Cargo in minutes.
-          </p>
-          <div class="actions" style="margin: 1.6rem 0 0">
-            <a class="btn btn-lime" href="#install">Build from source</a>
-            <a class="btn btn-ghost" href="#downloads">Download Engine</a>
-            <a
-              class="btn btn-ghost"
-              href="https://github.com/renzora/engine"
-              rel="noopener noreferrer"
-              >Source</a
-            >
-          </div>
-          <figure class="engine-preview">
-            <img
-              src="renzora-editor.webp"
-              width="1280"
-              height="720"
-              alt="The Renzora editor: dockable panels, a live 3D viewport, hierarchy, inspector, and asset browser"
-            />
-            <figcaption>
-              Running the download opens this: dockable panels, a scene
-              hierarchy, a reflection-driven inspector — including your own
-              custom components — and a live viewport.
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="engine-get" aria-labelledby="get-editor-heading">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="kicker">Same editor either way</p>
-            <h2 id="get-editor-heading">Get the editor</h2>
-            <p class="lede">Two ways to start. Both give you the same editor.</p>
-          </div>
-          <div class="get-split">
-            <article id="install" class="get-card recommended">
-              <p class="get-flag">Recommended for building games</p>
-              <h3>Build from source</h3>
-              <p>
-                Clone the engine and build it with Cargo. Needs a Rust toolchain
-                and git on your PATH.
-              </p>
-              <div class="term" role="region" aria-label="terminal">
-                <div><span class="prompt">$</span> git clone https://github.com/renzora/engine.git</div>
-                <div><span class="prompt">$</span> cd engine</div>
-                <div><span class="prompt">$</span> cargo renzora <span class="cm"># build it and open the editor</span></div>
-              </div>
-              <p class="get-note">
-                <code>cargo renzora</code> compiles the engine and launches the
-                editor. The first build takes a few minutes; after that it is
-                incremental.
-              </p>
-            </article>
-            <article id="downloads" class="get-card">
-              <div class="channel" role="tablist" aria-label="Release channel">
-                <input type="radio" name="engine-channel" id="ch-stable" checked />
-                <label for="ch-stable">Stable</label>
-                <input type="radio" name="engine-channel" id="ch-nightly" />
-                <label for="ch-nightly">Nightly</label>
-              </div>
-              <div class="dl-stable">
-                <p class="get-note">Latest stable release: <strong>r1-alpha7</strong></p>
-                <div class="dl-grid">
-                  <a
-                    class="dl-card"
-                    href="https://github.com/renzora/engine/releases/download/r1-alpha7/windows-x64.zip"
-                    rel="noopener noreferrer"
-                  >
-                    <span>
-                      <strong>Windows</strong>
-                      <span>Editor · x64</span>
-                    </span>
-                    <span class="dl-go">Download</span>
-                  </a>
-                  <a
-                    class="dl-card"
-                    href="https://github.com/renzora/engine/releases/download/r1-alpha7/macos-arm64.zip"
-                    rel="noopener noreferrer"
-                  >
-                    <span>
-                      <strong>macOS</strong>
-                      <span>Editor · Apple Silicon</span>
-                    </span>
-                    <span class="dl-go">Download</span>
-                  </a>
-                  <a
-                    class="dl-card"
-                    href="https://github.com/renzora/engine/releases/download/r1-alpha7/linux-x64.zip"
-                    rel="noopener noreferrer"
-                  >
-                    <span>
-                      <strong>Linux</strong>
-                      <span>Editor · x64</span>
-                    </span>
-                    <span class="dl-go">Download</span>
-                  </a>
-                  <a
-                    class="dl-card is-off"
-                    href="https://github.com/renzora/engine/releases"
-                    rel="noopener noreferrer"
-                  >
-                    <span>
-                      <strong>Web</strong>
-                      <span>Not in this release</span>
-                    </span>
-                    <span class="dl-go">Releases</span>
-                  </a>
-                </div>
-              </div>
-              <div class="dl-nightly">
-                <p class="get-note">
-                  Nightlies are unreviewed builds of <code>main</code>. Right
-                  for developing against the engine; not for shipping a game.
-                </p>
-                <a
-                  class="btn btn-ghost"
-                  href="https://github.com/renzora/engine/releases"
-                  rel="noopener noreferrer"
-                  >Browse nightlies</a
-                >
-              </div>
-              <p class="get-note" style="margin-top: 0.9rem">
-                Each zip is the editor and the game runtime together. Unzip and
-                run it. That is the
-                <a
-                  class="ext"
-                  href="https://github.com/renzora/engine/releases"
-                  rel="noopener noreferrer"
-                  >Releases</a
-                >
-                page, on a homepage.
-              </p>
-            </article>
-          </div>
-          <p class="get-else">
-            Also:
-            <a href="https://renzora.com" rel="noopener noreferrer">renzora.com</a>
-            ·
-            <a href="https://renzora.com/docs" rel="noopener noreferrer">docs</a>
-            ·
-            <a href="#build">How you build one like this</a>
-            ·
-            <a href="#editor">oTTeCAD</a>
-          </p>
-        </div>
-      </section>
-
-      <section id="build" class="engine-guide">
+      <section id="engine" class="engine-guide">
         <div class="wrap">
           <div class="section-head">
             <p class="kicker">Systems programming</p>
-            <h1>How you build one like this</h1>
+            <h1>Game engines in system-level Rust</h1>
             <p class="lede">
-              Bevy owns the window, the GPU, and the tick. You write the editor,
-              the runtime, and the zip the homepage downloads — same argument as
-              oTTeCAD below, no garbage collector.
+              A game engine is the program that owns the window, talks to the GPU,
+              holds the scene, and ticks. Same argument as oTTeCAD below — no
+              garbage collector, one owner for every buffer.
             </p>
           </div>
+          <div class="actions" style="margin-bottom: 1.8rem">
+            <a class="btn btn-lime" href="#write">How to write one</a>
+            <a class="btn btn-ghost" href="#editor">Open oTTeCAD</a>
+          </div>
           <p>
-            That landing is
-            <a class="ext" href="https://renzora.com" rel="noopener noreferrer">renzora.com</a>:
-            a name, Bevy 0.19, two ways in, a screenshot of the editor. Renzora
-            is a 3D engine and a visual editor on Bevy. You unzip
-            <code>windows-x64.zip</code> and run it. The same
-            <code>World</code> plays in the runtime. Every system is a plugin you
-            can add or strip. That is the product — not a crate you
-            <code>cargo run</code> once.
+            Game engine development in Rust is systems programming. You are not
+            writing a gameplay script on top of someone else’s runtime. You are
+            writing the runtime: the event loop, the device, the scene memory,
+            the command buffer, the present. That is the same class of work as
+            a kernel driver or a 3D modeler — C and C++ territory — except the
+            compiler proves the memory story before the frame runs.
+          </p>
+          <p>
+            I used Fyrox before Unreal. That is what a Rust engine actually is:
+            a renderer that records GPU commands, a scene of nodes you own,
+            scripts that tick, an editor that can save the world. Not a
+            framework that hides the metal. The program <em>is</em> the metal.
           </p>
           <p>
             You do not beat Unreal by starting here. You learn the loop Unreal
-            already solved, with Bevy doing the metal: window, device, scene
-            (ECS), tick, present. Then you split the binary: editor for authors,
-            runtime for the game. System-level Rust is the language for that
-            loop. There is no garbage collector. Each entity, each panel, each
-            swapchain image has one owner. Bevy’s scheduler will not run two
-            systems that both write the same component in the same frame — that
-            is the borrow checker for the tick.
+            already solved: window, device, scene, tick, present. System-level
+            Rust is the language for that loop. There is no garbage collector.
+            Each swapchain image, each node, each command encoder has one owner.
+            The borrow checker will not compile a frame that writes the scene
+            while the renderer still holds it.
           </p>
 
-          <h2>The systems you actually write</h2>
+          <h2>Memory management is the engine</h2>
           <p>
-            You do not start by writing an ECS, a C-ABI, or gaussian splats.
-            Bevy’s ECS is the point of “based on Bevy.” Renzora is plugins on
-            that App, then two binaries, then a Release. A spinning cube in a
-            viewport you own is already an engine. Modeling, marketplace, and VR
-            come years later.
+            Memory is the argument of the language, and it is the argument of
+            the engine. A C++ engine leaks when a node outlives its mesh, or
+            crashes when a pointer outlives the object. A garbage-collected
+            engine (C#, Java, JavaScript, Go) pauses when the heap is walked
+            mid-frame — or you spend the rest of the project fighting the
+            collector so it does not. Rust makes the story compile.
+          </p>
+          <div class="engine-split">
+            <div class="engine-copy">
+              <p>
+                Each value has one owner. The <code>Engine</code> owns the
+                <code>Scene</code>. The scene owns every <code>Node</code>. A
+                <code>Handle</code> is an index into that pool, not a raw
+                pointer that can dangle. GPU resources follow the same rule:
+                the device, the queue, the surface, the buffers — drop frees
+                them. No destructor you forget. No GC scan.
+              </p>
+              <p>
+                Other code may borrow for a limited time.
+                <code>tick</code> takes <code>&amp;mut self</code> so scripts
+                and physics get exclusive write — one writer, no aliasing.
+                <code>render</code> takes <code>&amp;self</code> so the GPU path
+                may only read. Lifetimes are the compiler proving those borrows
+                do not outlive the owner. That is slower to write than a
+                high-level engine script. It is also why the frame can run next
+                to the metal — native on the desktop, WebAssembly in a browser —
+                without a runtime holding your hand.
+              </p>
+              <p>
+                That split is the engine. Update mutates the world. Draw looks
+                at it. If both happen at once, you have a data race. Rust
+                refuses to compile that. C++ lets you ship it.
+              </p>
+            </div>
+            <figure class="code-example">
+              <figcaption>Ownership — scene pool, exclusive tick, shared draw. No GC.</figcaption>
+              <pre><code><span class="cm">// Scene owns every node. Handles are indices, not pointers.</span>
+<span class="kw">struct</span> Handle(u32);
+
+<span class="kw">struct</span> Node {
+    name: String,
+    local: [f32; 16],
+    children: Vec&lt;Handle&gt;,
+}
+
+<span class="kw">struct</span> Scene {
+    nodes: Vec&lt;Node&gt;,
+}
+
+<span class="kw">struct</span> Engine {
+    scene: Scene,
+    <span class="cm">// gpu: Device + Queue + Surface — also owned here</span>
+}
+
+<span class="kw">impl</span> Engine {
+    <span class="kw">fn</span> tick(&amp;<span class="kw">mut</span> self, dt: f32) {
+        self.update(dt); <span class="cm">// exclusive: scripts, physics</span>
+        self.render();   <span class="cm">// then a shared view for draw</span>
+    }
+
+    <span class="kw">fn</span> update(&amp;<span class="kw">mut</span> self, dt: f32) {
+        <span class="kw">for</span> node <span class="kw">in</span> &amp;<span class="kw">mut</span> self.scene.nodes {
+            node.local[13] += dt; <span class="cm">// translate Y</span>
+        }
+    }
+
+    <span class="kw">fn</span> render(&amp;self) {
+        <span class="kw">let</span> _n = self.scene.nodes.len();
+        <span class="cm">// encode commands, present. Drop frees the encoder. No GC.</span>
+    }
+}
+
+<span class="kw">fn</span> main() {
+    <span class="kw">let mut</span> engine = Engine {
+        scene: Scene { nodes: vec![] },
+    };
+    engine.tick(1.0 / 60.0);
+} <span class="cm">// Engine dropped. Scene, Vec, GPU — all freed.</span></code></pre>
+            </figure>
+          </div>
+
+          <h2 id="write">How to write a game engine in Rust</h2>
+          <p>
+            You write the systems, in this order. A spinning mesh with a camera
+            you own is already an engine. Physics, audio, and an editor come
+            after the cube is yours. Do not begin by rewriting Unreal’s editor,
+            or by wrapping another engine and calling it yours.
           </p>
           <div class="engine-systems">
             <article class="path-item">
               <span class="status">01</span>
-              <strong>App and plugins</strong>
-              <span><code>App::new().add_plugins(DefaultPlugins)</code>. Window, input, GPU, assets. Your engine is more plugins on that App — Renzora’s cut.</span>
+              <strong>Window and input</strong>
+              <span>winit event loop. Resize, close, keyboard, mouse. Nothing draws until this exists.</span>
             </article>
             <article class="path-item">
               <span class="status">02</span>
-              <strong>ECS</strong>
-              <span>Entity is an ID. Components are structs. Systems are functions. The World owns the rows. Editor and runtime share it.</span>
+              <strong>GPU</strong>
+              <span>wgpu device, queue, surface, pipelines. You record a command buffer and present. Drop frees it — no GC pause.</span>
             </article>
             <article class="path-item">
               <span class="status">03</span>
-              <strong>Editor</strong>
-              <span>Viewport, hierarchy, inspector, gizmos, G / R / S. Wireframe / Solid / Material / Rendered. This is what a Renzora screenshot is.</span>
+              <strong>Scene graph</strong>
+              <span>Nodes in a pool, addressed by handles, not raw pointers. Transforms, cameras, meshes. An ECS is a later choice, not a first one.</span>
             </article>
             <article class="path-item">
               <span class="status">04</span>
-              <strong>Runtime</strong>
-              <span>The game binary — no editor, no dock. Same plugins, same scene. Renzora also runs it with <code>--server</code>.</span>
+              <strong>Resources</strong>
+              <span>Load meshes, textures, and scenes from disk. One owner of the bytes. The GPU gets a copy you also own.</span>
             </article>
             <article class="path-item">
               <span class="status">05</span>
-              <strong>Export templates</strong>
-              <span><code>my-runtime-&lt;platform&gt;.zip</code> — runtime only. The editor fetches these so you can package for a machine you are not sitting at.</span>
+              <strong>The tick</strong>
+              <span>Input → scripts / physics → render → present. Exclusive borrow of the scene, then a shared view for draw. That order is the engine.</span>
             </article>
             <article class="path-item">
               <span class="status">06</span>
-              <strong>GitHub Releases</strong>
-              <span>Tag a build. Actions zips <code>windows-x64.zip</code> (editor + runtime). Nightlies off <code>main</code>. Unzip and run — no compile.</span>
+              <strong>Editor, last</strong>
+              <span>Inspect nodes, gizmos, serialize the scene. The editor is a second binary on the same World — after the runtime can play.</span>
             </article>
           </div>
-
-          <h2>The World owns the frame</h2>
-          <div class="engine-split">
-            <div class="engine-copy">
-              <p>
-                Memory is the argument, same as the modeler below. A C++ engine
-                leaks when a node outlives its mesh. A garbage-collected engine
-                pauses when the heap is walked mid-frame. Bevy makes the story
-                compile: the <code>World</code> owns every entity. A
-                <code>Query&lt;&amp;mut Transform&gt;</code> is an exclusive
-                borrow of that column. Two systems that both need it will not
-                overlap. Drop frees the World — no GC scan.
-              </p>
-              <p>
-                The editor and the runtime are two <code>main</code> functions
-                on the same plugins. The editor adds hierarchy, inspector, and
-                gizmos. The runtime does not. That split is how Renzora ships a
-                24 MB editor zip and a smaller game.
-              </p>
-              <p>
-                Start with <code>DefaultPlugins</code> and a spinning cube. Your
-                <code>EnginePlugin</code> next. An editor viewport after the cube
-                is yours. Do not begin with C-ABI plugins, a marketplace, or
-                forking the renderer.
-              </p>
-            </div>
-            <figure class="code-example">
-              <figcaption>Bevy — World owns entities. Plugin owns the tick.</figcaption>
-              <pre><code><span class="cm">// World owns every entity. Query is a borrow of columns, not pointers.</span>
-<span class="kw">use</span> bevy::prelude::*;
-
-<span class="kw">fn</span> main() {
-    App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugins(EnginePlugin)
-        <span class="cm">// .add_plugins(EditorPlugin)  // editor binary only</span>
-        .run();
-}
-
-<span class="kw">pub struct</span> EnginePlugin;
-
-<span class="kw">impl</span> Plugin <span class="kw">for</span> EnginePlugin {
-    <span class="kw">fn</span> build(&amp;self, app: &amp;<span class="kw">mut</span> App) {
-        app.add_systems(Startup, spawn)
-            .add_systems(Update, spin);
-    }
-}
-
-#[derive(Component)]
-<span class="kw">struct</span> Spin(f32);
-
-<span class="kw">fn</span> spawn(<span class="kw">mut</span> commands: Commands) {
-    commands.spawn((
-        Transform::from_xyz(0.0, 0.5, 0.0),
-        Spin(1.0),
-    )); <span class="cm">// World takes ownership</span>
-}
-
-<span class="kw">fn</span> spin(time: Res&lt;Time&gt;, <span class="kw">mut</span> q: Query&lt;(&amp;<span class="kw">mut</span> Transform, &amp;Spin)&gt;) {
-    <span class="kw">for</span> (<span class="kw">mut</span> tf, spin) <span class="kw">in</span> &amp;<span class="kw">mut</span> q {
-        tf.rotate_y(spin.0 * time.delta_secs());
-    }
-} <span class="cm">// exclusive borrow of Transform ends. No GC.</span></code></pre>
-            </figure>
-          </div>
+          <p style="margin-top: 1.4rem">
+            Start small. <code>cargo new my-engine</code>. A window that
+            closes. A surface that clears a color. A triangle, then a cube with
+            a camera you own. Then the pool of handles. Then a dt tick that
+            spins the cube. Then load an OBJ. Then save the scene. The editor
+            is the last system — inspect, gizmos, play-in-editor — and it is
+            also the part that takes years. Fyrox’s public source is a map of
+            that cut, not a product to clone:
+            <a class="ext" href="https://fyrox.rs" rel="noopener noreferrer">fyrox.rs</a>
+            ·
+            <a class="ext" href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">github.com/FyroxEngine/Fyrox</a>.
+            Copy the architecture. Name the crate yours.
+          </p>
 
           <h2>Crate map</h2>
           <p>
-            One crate until it hurts. Then a workspace so the editor and the
-            runtime stay two binaries on one World. This is the Renzora-shaped
-            cut, not a clone of their crate names.
+            One crate until it hurts. Then a workspace so compile times and
+            ownership stay honest. Each crate owns one job. The engine crate
+            is glue — the tick — not magic.
           </p>
           <pre class="engine-tree"><code>my-engine/
-  Cargo.toml                 <span class="cm"># [workspace]; pin bevy = "0.19"</span>
+  Cargo.toml                 <span class="cm"># [workspace] members</span>
   crates/
-    engine/                  <span class="cm"># World, scene, gameplay plugins</span>
-    editor/                  <span class="cm"># viewport, hierarchy, inspector, gizmos</span>
-    runtime/                 <span class="cm"># game binary — no dock, no editor</span>
-  .github/workflows/
-    release.yml              <span class="cm"># tag → platform zips on Releases</span>
+    core/                    <span class="cm"># math, pool of handles, uuid</span>
+    graph/                   <span class="cm"># scene nodes, transforms, cameras</span>
+    render/                  <span class="cm"># wgpu device, pipelines, present</span>
+    resource/                <span class="cm"># load meshes, textures, scenes</span>
+    engine/                  <span class="cm"># the tick — glue, not magic</span>
+    editor/                  <span class="cm"># inspect, gizmos, save — last</span>
   README.md
-  LICENSE-MIT
-  LICENSE-APACHE             <span class="cm"># same dual license as Bevy and Renzora</span>
-  .gitignore                 <span class="cm"># /target, /dist, *.pdb</span></code></pre>
+  LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Rust itself</span>
+  .gitignore                 <span class="cm"># /target, *.pdb</span></code></pre>
 
-          <h2>Ship it like Renzora’s Releases page</h2>
+          <h2>Push it to GitHub</h2>
           <p>
-            Source on GitHub is half the job. Renzora’s
-            <a
-              class="ext"
-              href="https://github.com/renzora/engine/releases"
-              rel="noopener noreferrer"
-              >Releases</a
-            >
-            page is the other half: unzip, run the editor, no
-            <code>cargo</code>. Install Rust from
+            A crate that only lives on your disk is a sketch. GitHub is how it
+            becomes a project other people can clone, compile, and fork. Install
+            Rust from
             <a class="ext" href="https://rustup.rs" rel="noopener noreferrer">rustup.rs</a>
-            so you can build. Install
+            so <code>cargo --version</code> prints. Install
             <a class="ext" href="https://cli.github.com" rel="noopener noreferrer">GitHub CLI</a>
-            for <code>gh release create</code>.
+            if you want <code>gh repo create</code> in one step.
           </p>
           <ol class="engine-steps">
             <li>
-              Scaffold: <code>cargo new my-engine --lib</code>. Pin
-              <code>bevy = "0.19"</code>. Split into <code>editor</code> and
-              <code>runtime</code> binaries when the cube is yours. On Windows,
-              <code>dynamic_linking</code> on the editor crate keeps iteration
-              faster.
+              Scaffold: <code>cargo new my-engine --lib</code>. Split into the
+              workspace above when the first module is no longer a sketch.
             </li>
             <li>
-              Push the source. README says how to
-              <code>cargo run -p editor</code>, which Bevy version you pin, what
-              GPU it needs. MIT OR Apache-2.0, like Bevy and Renzora.
+              Keep build junk out of git. Cargo already writes a
+              <code>.gitignore</code> with <code>/target</code>. Add
+              <code>*.pdb</code> on Windows.
             </li>
             <li>
-              Stage a dist folder: editor exe + runtime exe + a few assets.
-              Zip it <code>windows-x64.zip</code>. One platform is enough for
-              the first tag. Renzora later adds Linux, macOS, wasm, and
-              runtime-only templates.
+              Write <code>README.md</code> — what it is, how to
+              <code>cargo run -p editor</code>, what GPU it needs. Add
+              <code>LICENSE</code>. MIT OR Apache-2.0 is the Rust default.
             </li>
             <li>
-              Tag and attach. <code>git tag r1-alpha1</code>, push the tag, then
-              <code>gh release create</code> with the zip. A GitHub Action can
-              do that on every tag — and a nightly job off <code>main</code>,
-              the way Renzora names
-              <code>r1-alpha7-nightly-07sep26</code>.
+              Commit locally, then publish. <code>gh</code> creates the empty
+              repo and pushes in one command. Without it, create the repo on
+              github.com and add the remote yourself.
             </li>
           </ol>
           <figure class="code-example" style="margin-top: 1.1rem">
-            <figcaption>GitHub Releases — zip the editor, tag, upload</figcaption>
-            <pre><code><span class="cm"># Source on GitHub first</span>
+            <figcaption>Git — commit the crate, then push origin</figcaption>
+            <pre><code><span class="cm"># After cargo new my-engine --lib, and a README + LICENSE</span>
+git init
+git add README.md LICENSE Cargo.toml src .gitignore
+git commit -m <span class="kw">"Initial engine crate"</span>
+
+<span class="cm"># GitHub CLI — public repo, this folder, push</span>
 gh repo create my-engine --public --source=. --remote=origin --push
 
-<span class="cm"># Build and stage one platform zip (Windows here)</span>
-cargo build --release -p editor -p runtime
-mkdir dist\windows-x64
-copy target\release\editor.exe dist\windows-x64\my-editor.exe
-copy target\release\runtime.exe dist\windows-x64\my-runtime.exe
-Compress-Archive dist\windows-x64 windows-x64.zip
-
-<span class="cm"># Tag + Releases page, same shape as renzora/engine/releases</span>
-git tag r1-alpha1
-git push origin r1-alpha1
-gh release create r1-alpha1 windows-x64.zip --title <span class="kw">"My Engine r1-alpha1"</span> --notes <span class="kw">"Unzip and run my-editor.exe"</span></code></pre>
+<span class="cm"># Without gh:</span>
+<span class="cm"># git remote add origin git@github.com:YOU/my-engine.git</span>
+<span class="cm"># git branch -M main</span>
+<span class="cm"># git push -u origin main</span></code></pre>
           </figure>
           <p style="margin-top: 1rem">
-            Later: <code>manifest.json</code> and <code>SHA256SUMS</code> beside
-            the zips. Later: <code>my-runtime-windows-x64.zip</code> as an
-            export template. Later: a wasm editor, the way every Renzora nightly
-            refreshes the playable build. Do not start there. The modeler below
-            is that discipline applied to mesh topology instead of an editor
-            World.
+            Optional next: a GitHub Action that runs <code>cargo test</code> on
+            every push. Optional later: compile a wasm demo and park it on GitHub
+            Pages — the same way oTTeCAD sits on this site. The modeler below is
+            that discipline applied to mesh topology instead of a scene graph.
           </p>
         </div>
       </section>
