@@ -1177,26 +1177,30 @@ body.rust .grain {
 }
 
 .engine-preview {
-  margin: 1.5rem 0 1.8rem;
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  width: 100%;
+  margin: 1.6rem 0 2rem;
+  border: 0;
+  border-block: 1px solid var(--line);
+  border-radius: 0;
   overflow: hidden;
   background: #0c0e14;
-  box-shadow: var(--shadow);
 }
 
 .engine-preview img {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .engine-preview figcaption {
-  margin: 0;
-  padding: 0.85rem 1.1rem 1rem;
+  width: min(1180px, calc(100vw - 2.4rem));
+  margin: 0 auto;
+  padding: 0.85rem 0 1rem;
   color: var(--mist);
   font-size: 0.92rem;
-  border-top: 1px solid var(--line);
 }
 
 .engine-preview figcaption a {
