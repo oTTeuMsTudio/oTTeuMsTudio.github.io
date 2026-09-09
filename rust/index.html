@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rust — game engines and oTTeCAD — oTTeuM sTudio</title>
+    <title>Rust — custom engine with an editor and oTTeCAD — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="Game engines as system-level Rust: ownership, no garbage collector, the tick. How to write one, then oTTeCAD — a 3D modeler compiled to WebAssembly."
+      content="Writing a custom game engine with an editor like Fyrox in system-level Rust, then oTTeCAD — a 3D modeler compiled to WebAssembly."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,40 +58,92 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
       <section id="engine" class="engine-guide">
         <div class="wrap">
           <div class="section-head">
-            <p class="kicker">Systems programming</p>
-            <h1>Game engines in system-level Rust</h1>
+            <p class="kicker">Custom engine</p>
+            <h1>Writing a Custom Game Engine with an Editor in Rust</h1>
             <p class="lede">
-              A game engine is the program that owns the window, talks to the GPU,
-              holds the scene, and ticks. Same argument as oTTeCAD below — no
-              garbage collector, one owner for every buffer.
+              An engine is the tick. An editor is the same tick with windows on
+              it — world viewer, scene preview, inspector, undo. Fyrox is that
+              cut, in system-level Rust. No garbage collector.
             </p>
           </div>
+          <figure class="engine-preview">
+            <img
+              src="fyrox-editor.png"
+              width="1920"
+              height="1046"
+              alt="FyroxEd: scene graph on the left, 3D scene preview with gizmos in the center, inspector on the right, asset browser and command stack below"
+            />
+            <figcaption>
+              FyroxEd — a native scene editor built with the engine it edits.
+              Scene graph, scene preview, inspector, asset browser, command
+              stack. Screenshot from
+              <a href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">FyroxEngine/Fyrox</a>.
+            </figcaption>
+          </figure>
           <div class="actions" style="margin-bottom: 1.8rem">
             <a class="btn btn-lime" href="#write">How to write one</a>
             <a class="btn btn-ghost" href="#editor">Open oTTeCAD</a>
           </div>
           <p>
+            I used Fyrox before Unreal. Fyrox is a 3D engine and a native editor
+            (FyroxEd), both written in Rust. The editor is not a separate product
+            glued on later. It is a game on the same scene graph, the same
+            renderer, the same resource pool — plus dockable windows, gizmos,
+            and a command stack. That is what you are writing: a custom engine
+            with an editor, like that.
+          </p>
+          <p>
             Game engine development in Rust is systems programming. You are not
             writing a gameplay script on top of someone else’s runtime. You are
             writing the runtime: the event loop, the device, the scene memory,
-            the command buffer, the present. That is the same class of work as
-            a kernel driver or a 3D modeler — C and C++ territory — except the
-            compiler proves the memory story before the frame runs.
+            the command buffer, the present — and then the editor that authors
+            that scene. Same class of work as C and C++. The compiler proves
+            the memory story before the frame runs. There is no garbage
+            collector. Each node, each swapchain image, each inspector widget
+            has one owner.
           </p>
+
+          <h2>The editor is a game</h2>
           <p>
-            I used Fyrox before Unreal. That is what a Rust engine actually is:
-            a renderer that records GPU commands, a scene of nodes you own,
-            scripts that tick, an editor that can save the world. Not a
-            framework that hides the metal. The program <em>is</em> the metal.
+            FyroxEd is built with Fyrox. Same <code>Scene</code>, same renderer,
+            extra nodes for gizmos and an editor camera, extra windows for
+            authors. Play mode runs the game in a <em>separate process</em> so
+            a crash does not take the editor with it. Copy that split. Do not
+            begin by forking Unreal, or by wrapping another engine and calling
+            it yours.
           </p>
-          <p>
-            You do not beat Unreal by starting here. You learn the loop Unreal
-            already solved: window, device, scene, tick, present. System-level
-            Rust is the language for that loop. There is no garbage collector.
-            Each swapchain image, each node, each command encoder has one owner.
-            The borrow checker will not compile a frame that writes the scene
-            while the renderer still holds it.
-          </p>
+          <div class="engine-systems">
+            <article class="path-item">
+              <span class="status">World viewer</span>
+              <strong>Scene graph</strong>
+              <span>Every node and its children as a tree. Select here, highlight in the preview. Handles, not pointers.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Scene preview</span>
+              <strong>Viewport + gizmos</strong>
+              <span>The same renderer plus debug draws. Select, move, rotate, scale. Editor camera on right-mouse + WASD.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Inspector</span>
+              <strong>The selected node</strong>
+              <span>Name, transform, resource, collider. A widget per field. Write goes through the command stack so undo works.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Asset browser</span>
+              <strong>Instantiate</strong>
+              <span>Meshes, textures, prefabs. Drag into the preview. The scene takes a handle to a resource you own.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Command stack</span>
+              <strong>Undo / redo</strong>
+              <span>Every edit is a command. Ctrl+Z pops it. The World Viewer and the Inspector both go through here — never mutate the scene from a widget directly.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Play</span>
+              <strong>Separate process</strong>
+              <span>Build and run the game binary. Lock the editor UI while it runs. The editor survives a game crash. That is Fyrox’s isolation.</span>
+            </article>
+          </div>
 
           <h2>Memory management is the engine</h2>
           <p>
@@ -176,12 +228,18 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             </figure>
           </div>
 
-          <h2 id="write">How to write a game engine in Rust</h2>
+          <h2 id="write">How to write the engine and the editor</h2>
           <p>
-            You write the systems, in this order. A spinning mesh with a camera
-            you own is already an engine. Physics, audio, and an editor come
-            after the cube is yours. Do not begin by rewriting Unreal’s editor,
-            or by wrapping another engine and calling it yours.
+            Runtime first. Editor second. A spinning mesh with a camera you own
+            is already an engine. The windows in the screenshot come after the
+            scene can save. Fyrox’s public source is a map of that cut, not a
+            product to clone:
+            <a class="ext" href="https://fyrox.rs" rel="noopener noreferrer">fyrox.rs</a>
+            ·
+            <a class="ext" href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">github.com/FyroxEngine/Fyrox</a>
+            ·
+            <a class="ext" href="https://fyrox-book.github.io/beginning/editor_overview.html" rel="noopener noreferrer">FyroxEd overview</a>.
+            Copy the architecture. Name the crate yours.
           </p>
           <div class="engine-systems">
             <article class="path-item">
@@ -192,48 +250,47 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             <article class="path-item">
               <span class="status">02</span>
               <strong>GPU</strong>
-              <span>wgpu device, queue, surface, pipelines. You record a command buffer and present. Drop frees it — no GC pause.</span>
+              <span>wgpu device, queue, surface, pipelines. Record a command buffer and present. Drop frees it — no GC pause.</span>
             </article>
             <article class="path-item">
               <span class="status">03</span>
               <strong>Scene graph</strong>
-              <span>Nodes in a pool, addressed by handles, not raw pointers. Transforms, cameras, meshes. An ECS is a later choice, not a first one.</span>
+              <span>Nodes in a pool, addressed by handles, not raw pointers. Transforms, cameras, meshes. This is the World Viewer’s data.</span>
             </article>
             <article class="path-item">
               <span class="status">04</span>
-              <strong>Resources</strong>
-              <span>Load meshes, textures, and scenes from disk. One owner of the bytes. The GPU gets a copy you also own.</span>
+              <strong>Resources + save</strong>
+              <span>Load meshes and textures. Serialize the scene to disk. Without save/load there is nothing for an editor to author.</span>
             </article>
             <article class="path-item">
               <span class="status">05</span>
               <strong>The tick</strong>
-              <span>Input → scripts / physics → render → present. Exclusive borrow of the scene, then a shared view for draw. That order is the engine.</span>
+              <span>Input → scripts / physics → render → present. Exclusive borrow of the scene, then a shared view for draw.</span>
             </article>
             <article class="path-item">
               <span class="status">06</span>
-              <strong>Editor, last</strong>
-              <span>Inspect nodes, gizmos, serialize the scene. The editor is a second binary on the same World — after the runtime can play.</span>
+              <strong>Editor binary</strong>
+              <span>Second crate on the same Scene. World viewer, preview + gizmos, inspector, command stack, asset browser. Play spawns the game process.</span>
             </article>
           </div>
           <p style="margin-top: 1.4rem">
             Start small. <code>cargo new my-engine</code>. A window that
             closes. A surface that clears a color. A triangle, then a cube with
             a camera you own. Then the pool of handles. Then a dt tick that
-            spins the cube. Then load an OBJ. Then save the scene. The editor
-            is the last system — inspect, gizmos, play-in-editor — and it is
-            also the part that takes years. Fyrox’s public source is a map of
-            that cut, not a product to clone:
-            <a class="ext" href="https://fyrox.rs" rel="noopener noreferrer">fyrox.rs</a>
-            ·
-            <a class="ext" href="https://github.com/FyroxEngine/Fyrox" rel="noopener noreferrer">github.com/FyroxEngine/Fyrox</a>.
-            Copy the architecture. Name the crate yours.
+            spins the cube. Then load an OBJ. Then save the scene to a file.
+            Then a second binary: walk the graph into a list, pick a handle,
+            show its transform, draw a gizmo. That list is the World Viewer.
+            That panel is the Inspector. Those two plus the viewport are already
+            an editor. Docking, prefabs, and play-in-editor come after that
+            loop is honest. Fyrox took years of this. Do not begin by rewriting
+            the whole of FyroxEd.
           </p>
 
           <h2>Crate map</h2>
           <p>
-            One crate until it hurts. Then a workspace so compile times and
-            ownership stay honest. Each crate owns one job. The engine crate
-            is glue — the tick — not magic.
+            One crate until it hurts. Then a workspace so the editor and the
+            runtime stay two binaries on one Scene. Each crate owns one job.
+            The engine crate is glue — the tick — not magic.
           </p>
           <pre class="engine-tree"><code>my-engine/
   Cargo.toml                 <span class="cm"># [workspace] members</span>
@@ -243,7 +300,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
     render/                  <span class="cm"># wgpu device, pipelines, present</span>
     resource/                <span class="cm"># load meshes, textures, scenes</span>
     engine/                  <span class="cm"># the tick — glue, not magic</span>
-    editor/                  <span class="cm"># inspect, gizmos, save — last</span>
+    editor/                  <span class="cm"># FyroxEd-shaped: viewer, inspector, gizmos</span>
   README.md
   LICENSE                    <span class="cm"># MIT OR Apache-2.0, like Rust itself</span>
   .gitignore                 <span class="cm"># /target, *.pdb</span></code></pre>

@@ -10,4 +10,4 @@ Static HTML/CSS/JS. GitHub Actions deploys `main` to Pages, and attaches the And
 
 Games: [`games/`](https://otteumstudio.github.io/games/) — Project BPLearn (Blueprint fundamentals in Unreal Engine 5.8), a top-down strategy/shooter in progress, plus First Game in Unreal gameplay, Android and Windows packaged builds, and the earlier FHOU recordings. The old [`firstgame/`](https://otteumstudio.github.io/firstgame/) URL redirects here.
 
-Rust: [`rust/`](https://otteumstudio.github.io/rust/) — game engines as system-level Rust (memory, the tick, how to write one), then oTTeCAD, a 3D modeler compiled to WebAssembly. The old [`modeling/`](https://otteumstudio.github.io/modeling/) URL redirects here.
+Rust: [`rust/`](https://otteumstudio.github.io/rust/) — writing a custom game engine with an editor like Fyrox, then oTTeCAD, a 3D modeler compiled to WebAssembly. The old [`modeling/`](https://otteumstudio.github.io/modeling/) URL redirects here.
