@@ -264,6 +264,37 @@ select {
   font-weight: 650;
 }
 
+/* Home — three stacked CTAs */
+.home-gate {
+  min-height: calc(100vh - var(--nav-h) - 90px);
+  display: grid;
+  align-items: start;
+  padding: 2.4rem 0 3.2rem;
+}
+
+.home-gate-inner {
+  display: grid;
+  gap: 1.1rem;
+  width: min(40rem, calc(100vw - 2.4rem));
+}
+
+.home-cta {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: stretch;
+  padding: 1.35rem 1.4rem 1.45rem;
+}
+
+.home-cta .lede {
+  margin: 0;
+  max-width: none;
+  font-size: 1.02rem;
+}
+
+.home-cta .btn {
+  width: 100%;
+}
+
 .hero-meta {
   display: flex;
   flex-wrap: wrap;
