@@ -47,10 +47,25 @@
       <section class="home-gate" aria-label="Start here">
         <div class="wrap home-gate-inner">
           <article class="panel home-cta">
-            <p class="lede">
-              SuperGrok Build is xAI’s coding agent in the terminal. Install the
-              CLI, sign in, and start prompting.
-            </p>
+            <div class="home-cta-copy">
+              <p>
+                SuperGrok Build is xAI’s coding agent in the terminal. It is not
+                a plugin inside Unreal. You install a CLI, launch it from the
+                folder that has your project, sign in once, and work in prompts
+                — the same way you would talk to a teammate sitting at the desk.
+              </p>
+              <p>
+                Unreal Engine 5.8 already ships an MCP server inside the editor.
+                Point SuperGrok at that server and it can spawn, inspect, and
+                light from a prompt. Epic’s Office Hours showed the bridge;
+                here the client is Grok. You can also use it on this site, on
+                Rust crates, or on any local codebase.
+              </p>
+              <p>
+                You need a SuperGrok subscription. First launch opens grok.com
+                to sign in. After that, the agent lives on your machine.
+              </p>
+            </div>
             <a
               class="btn btn-lime"
               href="https://x.ai/cli"
@@ -59,17 +74,48 @@
             >
           </article>
           <article class="panel home-cta">
-            <p class="lede">
-              Unreal Engine 5.8 projects from this studio — Blueprint learning,
-              a top-down start, and packaged builds you can play.
-            </p>
+            <div class="home-cta-copy">
+              <p>
+                I am learning Unreal Engine 5.8 in public. The Games page is
+                that log: Project BPLearn for Blueprint fundamentals — nodes,
+                wires, types, compile — recorded in the editor, not a trailer.
+              </p>
+              <p>
+                The game in progress is a top-down strategy/shooter. It starts
+                from Epic’s Top Down template: click-to-move, Enhanced Input,
+                graybox on purpose. Strategy and fire come after the body
+                actually walks where I point.
+              </p>
+              <p>
+                There is also a step-by-step on Epic’s PCG world-building stack
+                in 5.8 — plugins first, then a scatter graph, PCG Primitives,
+                biomes, Mesh Terrain. First Game in Unreal is still here as a
+                packaged Android and Windows build you can download and play.
+              </p>
+            </div>
             <a class="btn btn-lime" href="games/index.html">Try my Games</a>
           </article>
           <article class="panel home-cta">
-            <p class="lede">
-              How to write a custom game engine with an editor in Rust, then
-              open oTTeCAD — a 3D modeler running in the browser.
-            </p>
+            <div class="home-cta-copy">
+              <p>
+                I am writing a custom game engine with an editor like Fyrox —
+                in system-level Rust, no garbage collector. An engine is the
+                tick. An editor is the same tick with windows on it: world
+                viewer, scene preview, inspector, undo.
+              </p>
+              <p>
+                The Rust page walks that cut in order: window and input, GPU,
+                a scene pool of handles, save/load, then the tick. The editor
+                is a second binary on the same scene, not a separate product
+                glued on later. FyroxEd is the map of that architecture, not a
+                product to clone.
+              </p>
+              <p>
+                Underneath is oTTeCAD, a polygonal 3D modeler I own — mesh
+                topology, GPU viewport, tools, and undo — compiled to
+                WebAssembly so the same workbench runs in the browser.
+              </p>
+            </div>
             <a class="btn btn-lime" href="rust/index.html">Learn Rust</a>
           </article>
         </div>
