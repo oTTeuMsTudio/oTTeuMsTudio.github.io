@@ -3,7 +3,8 @@ Thumbs.db
 *.log
 
 # Packaged Unreal builds are over GitHub's 100 MB git file limit.
-# Stored as the `fgiu` release; the Pages workflow copies them into
-# firstgame/packaged/ on deploy so the Games page can serve the downloads.
+# Stored as the `fgiu` release; the Pages workflow copies the Windows
+# zip into games/packaged/windows/ on deploy so the Games page can serve it.
+games/packaged/windows/*.zip
 firstgame/packaged/android/*.apk
 firstgame/packaged/windows/*.zip
