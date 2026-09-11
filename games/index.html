@@ -6,7 +6,7 @@
     <title>Games — oTTeuM sTudio</title>
     <meta
       name="description"
-      content="Download First Game in Unreal for Windows. Unzip the packaged build and run FGIU.exe."
+      content="Games in Unreal Engine 5.8 with Blueprint visual scripting. Download First Game in Unreal for Windows."
     />
     <link rel="icon" href="../images/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,21 +45,165 @@
 
     <main id="main">
       <div class="wrap page-hero">
-        <p class="kicker">Games · Windows</p>
+        <p class="kicker">Games · Unreal Engine 5.8</p>
         <h1>Games</h1>
         <p class="lede">
-          First Game in Unreal, packaged for Windows. Download the zip, unzip
-          the folder, and play.
+          I am learning to make games in Unreal Engine 5.8. The logic is
+          Blueprint visual scripting — nodes, wires, types, compile — not C++
+          yet. First Game in Unreal is the loop you can download and play on
+          Windows.
         </p>
         <div class="hero-meta">
+          <span>Unreal Engine 5.8</span>
+          <span>Blueprints</span>
           <span>Windows</span>
-          <span>Win64</span>
-          <span>Unreal Engine 5</span>
+        </div>
+        <div class="actions">
+          <a class="btn btn-lime" href="#packaged">Download for Windows</a>
+          <a class="btn btn-ghost" href="#blueprints">Blueprint scripting</a>
         </div>
       </div>
 
+      <section id="ue58" class="learn-guide">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">The engine</p>
+            <h2>Games in Unreal Engine 5.8</h2>
+            <p>
+              Unreal is the editor, the renderer, the physics, and the packager.
+              5.8 is the version I open every day. The game is what I wire on
+              top of that.
+            </p>
+          </div>
+          <p>
+            I am a beginner in this engine on purpose. Years of 3D modeling
+            taught me meshes, UVs, and materials. They did not teach me a
+            playable loop. Unreal Engine 5.8 is where I am learning that: a
+            character you can move, a clock on screen, a start line, a packaged
+            build you can unzip on Windows and actually run.
+          </p>
+          <p>
+            The editor is the workbench. A map is a level. Play In Editor runs
+            the game inside that map without leaving the desk. Package Project
+            is the step that turns the same map into <code>FGIU.exe</code> —
+            the file on this page. Same mannequin, same timer, no editor around
+            it.
+          </p>
+          <p>
+            First Game in Unreal started from Epic’s third-person template in
+            5.8. Graybox on purpose: prototype floor, lime and orange platforms,
+            a painted start line. The camera sits behind the mannequin. Input
+            is Enhanced Input — actions, not raw keys glued to the pawn. The
+            HUD is a widget. The loop is short: spawn, run, watch the clock.
+            Art later. Play first.
+          </p>
+          <p>
+            5.8 is not a different Unreal. It is the current one: World
+            Partition for large maps, Nanite and Lumen when I need them, PCG
+            when the world has to grow from rules. None of that is the first
+            homework. The first homework is a body that walks and a timer that
+            ticks. The download below is that homework, packaged.
+          </p>
+          <dl class="facts" style="margin-top: 1.6rem">
+            <div class="fact">
+              <dt>Engine</dt>
+              <dd>Unreal Engine 5.8</dd>
+            </div>
+            <div class="fact">
+              <dt>Logic</dt>
+              <dd>Blueprints</dd>
+            </div>
+            <div class="fact">
+              <dt>Template</dt>
+              <dd>Third Person</dd>
+            </div>
+            <div class="fact">
+              <dt>Build</dt>
+              <dd>Windows Win64</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="blueprints" class="learn-guide">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">The language</p>
+            <h2>Blueprint visual scripting</h2>
+            <p>
+              Blueprints are Unreal’s visual scripts. You do not type the first
+              loop. You place nodes, wire them, and compile. That is how this
+              game thinks.
+            </p>
+          </div>
+          <p>
+            A Blueprint is a class with a graph instead of a source file. Open
+            it and you get an Event Graph: events on the left, work to the
+            right. White pins are execution — the order things run. Colored
+            pins are data — Boolean, Integer, Float, Object, the type of the
+            wire. If the types do not match, the wire refuses. That is the
+            type system, drawn.
+          </p>
+          <p>
+            The events that matter first are few.
+            <code>Event BeginPlay</code> fires once when the actor exists.
+            <code>Event Tick</code> fires every frame.
+            <code>Event ActorBeginOverlap</code> fires when something enters a
+            collision. A timer is often just an Integer set on begin play, then
+            read by the HUD. Compile has to succeed before any of that runs.
+            Red errors in the graph are the same as a failed build.
+          </p>
+          <p>
+            There is a Level Blueprint on the map, and there are Blueprint
+            Classes in the Content Browser. The class is the reusable one:
+            a pawn, a lamp, a collectible, a widget. The level graph is for
+            things that only exist in this map. First Game in Unreal keeps the
+            loop on classes — input on the character, time on a widget — so
+            packaging the project packages the logic with it.
+          </p>
+          <p>
+            Visual scripting is still scripting. Execution flows. Data is
+            typed. A broken wire is a bug. The difference is you can see the
+            flow on one screen: BeginPlay sets the timer, Tick updates the
+            widget, overlap ends the run. That is why I am learning games this
+            way in 5.8 before I write the same loop in C++. The graph is the
+            lesson. The Windows build is the proof it ran.
+          </p>
+          <div class="path-list" style="margin-top: 1.6rem">
+            <article class="path-item">
+              <span class="status">Graph</span>
+              <strong>Event Graph</strong>
+              <span>Events in, work out. BeginPlay, Tick, overlap — the same beats as a written tick, laid out as nodes.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Pins</span>
+              <strong>Execution and data</strong>
+              <span>White wires are order. Colored wires are values. A Boolean does not plug into an Integer.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Build</span>
+              <strong>Compile, then play</strong>
+              <span>The graph does nothing until compile succeeds. Then PIE, then Package Project for Windows.</span>
+            </article>
+            <article class="path-item">
+              <span class="status">Input</span>
+              <strong>Enhanced Input</strong>
+              <span>Actions, not raw keys on the pawn. Move, look, jump — the template mapping that the mannequin actually reads.</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section id="packaged">
         <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Play it</p>
+            <h2>Download for Windows</h2>
+            <p>
+              Same loop as above, packaged. Unzip the folder, run
+              <code>FGIU.exe</code>.
+            </p>
+          </div>
           <article class="panel download-card" style="max-width: 36rem">
             <span class="status">Windows</span>
             <strong>FGIU-Windows.zip</strong>
